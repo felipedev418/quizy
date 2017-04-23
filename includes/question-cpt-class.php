@@ -74,6 +74,13 @@ class Qzy_Question_CPT {
         $answers = $_POST['answers'];
         $goods = $_POST['goods'];
 
+        // Remove empty answers
+        foreach ($answers as $key => $answer) {
+            if( "" == trim($answer) ){
+                unset( $answers[$key] );
+            }
+        }
+        
         if( !update_post_meta($post_id, 'answers', $answers) ){
             add_post_meta($post_id, 'answers', $answers);
         }
