@@ -17,7 +17,8 @@ jQuery( document ).ready(function() {
 		    name: 'answers['+(new_answer_num-1)+']',
 		    value: '',
 		    class: 'regular-text',
-		    'data-num': new_answer_num
+		    'data-num': new_answer_num,
+		    placeholder: "Add your answer here ..."
 		}).appendTo('#qzy_answers_list li:last label');
 
 		// answer goods
