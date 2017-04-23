@@ -18,12 +18,10 @@ class Qzy_Question_CPT {
      */
     function __construct() {
 
-        $this->create_post_type();
+        $this->create_post_type();        
 
     }
-
-    function create_post_type()
-    {
+    function create_post_type(){
         add_action('init', array($this, 'register_post_type'));
 
         add_action('init', array($this, 'register_taxonomies'));
@@ -33,27 +31,26 @@ class Qzy_Question_CPT {
         add_action( 'save_post', array($this, 'save_meta_boxs'));
     }
 
-    function register_meta_boxes() {
+    function register_meta_boxes(){
         // Question answers
         add_meta_box( 'qzy_answers', 'Answers', array($this, 'add_answers_metabox'), 'qzy_question' );
     }
 
-    function add_answers_metabox( $post ) {
+    function add_answers_metabox( $post ){
         $question_answers = get_post_meta($post->ID,'answers');
         $question_goods = get_post_meta($post->ID,'goods');
 
         $question_answers = $question_answers[0];
         $question_goods = $question_goods[0];
 
-        $nbr_answers = count($question_answers)? count($question_answers): 0;
-
+        $current_answer_num = 1;
         ?>
-        <ul>
+        <ul id="qzy_answers_list">
         <?php if($question_answers): ?>
-            <?php foreach ($question_answers as $key => $answer) : ?>
+            <?php foreach ($question_answers as $key => $answer) : if($answer == '') continue; ?>
                 <li>
                     <label>
-                        Answer 1 <input type="text" name="answers[<?php echo $key;?>]" value="<?php echo $answer; ?>" class="regular-text">
+                        Answer <?php echo $current_answer_num++; ?> <input type="text" name="answers[<?php echo $key;?>]" data-num="<?php echo $key+1;?>" value="<?php echo $answer; ?>" class="regular-text">
                     </label>
                     <?php $cheched_or_not = ( is_array($question_goods) && array_key_exists($key, $question_goods) && $question_goods[$key] == 'on') ? 'checked="checked"' : '' ?>
                     <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $key;?>]" <?php echo $cheched_or_not; ?>></label>
@@ -63,15 +60,16 @@ class Qzy_Question_CPT {
         <!-- Additional empty answer -->
             <li>
                 <label>
-                    Answer <?php echo $nbr_answers+1;?> <input type="text" name="answers[<?php echo $nbr_answers;?>]" value="" class="regular-text">
+                    Answer <?php echo $current_answer_num;?> <input type="text" name="answers[<?php echo $current_answer_num-1;?>]" data-num="<?php echo $current_answer_num;?>" value="" class="regular-text">
                 </label>
-                <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $nbr_answers;?>]" ></label>
+                <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $current_answer_num-1;?>]" ></label>
             </li>
         </ul>
+        <a id="qzy_add_new_answer" href="#">[ + NEW ANSWER ]</a>
         <?php
     }
      
-    function save_meta_boxs( $post_id ) {
+    function save_meta_boxs( $post_id ){
         $answers = $_POST['answers'];
         $goods = $_POST['goods'];
 
@@ -84,8 +82,7 @@ class Qzy_Question_CPT {
         }
     }
 
-    function register_post_type()
-    {
+    function register_post_type(){
 	    $args = array(
 	      'public' => true,
 	      'label'  => 'Questions',

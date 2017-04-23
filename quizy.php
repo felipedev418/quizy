@@ -65,9 +65,24 @@ class Quizy {
      */
     function qz_start()
     {
-    	// main function
+        // main function
+        
+        $this->enqueue_assets();
+
     	$quiz_object = new Qzy_quiz_cpt();
     	$question_object = new Qzy_Question_cpt();
+    }
+
+    function enqueue_assets(){
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+    }
+
+    function admin_scripts(){
+        global $current_screen;
+
+        if( 'qzy_question' == $current_screen->id){
+            wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') ); 
+        }
     }
 
 }
