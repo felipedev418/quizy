@@ -66,7 +66,9 @@ class Qzy_Question_CPT {
                 <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $current_answer_num-1;?>]" ></label>
             </li>
         </ul>
-        <a id="qzy_add_new_answer" href="#">[ + NEW ANSWER ]</a>
+        <a id="qzy_add_new_answer" href="#" title="Add new answer">
+            <span class="dashicons dashicons-plus-alt"></span>
+        </a>
         <?php
     }
      
