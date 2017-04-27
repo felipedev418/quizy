@@ -45,8 +45,8 @@ class Qzy_Question_CPT {
         $question_answers = get_post_meta($post->ID,'answers');
         $question_goods = get_post_meta($post->ID,'goods');
 
-        $question_answers = $question_answers[0];
-        $question_goods = $question_goods[0];
+        $question_answers   = is_array( $question_answers ) && count( $question_answers ) > 0 ? $question_answers[0] : false;
+        $question_goods     = is_array( $question_goods ) && count( $question_goods ) > 0 ? $question_goods[0] : false; 
 
         $current_answer_num = 1;
         ?>
@@ -92,27 +92,37 @@ class Qzy_Question_CPT {
     }
      
     function save_meta_boxs( $post_id ){
-        $answers = $_POST['answers'];
-        $goods = $_POST['goods'];
-        $duration = $_POST['duration'];
 
-        // Remove empty answers
-        foreach ($answers as $key => $answer) {
-            if( "" == trim($answer) ){
-                unset( $answers[$key] );
+        // Save Answers
+        if( array_key_exists('answers', $_POST) ){
+            $answers = $_POST['answers'];
+
+            // Remove empty answers
+            foreach ($answers as $key => $answer) {
+                if( "" == trim($answer) ){
+                    unset( $answers[$key] );
+                }
+            }
+
+            if( !update_post_meta($post_id, 'answers', $answers) ){
+                add_post_meta($post_id, 'answers', $answers);
             }
         }
-        
-        if( !update_post_meta($post_id, 'answers', $answers) ){
-            add_post_meta($post_id, 'answers', $answers);
+
+        // Save Good Answers
+        if( array_key_exists('goods', $_POST) ){
+            $goods = $_POST['goods'];
+            if( !update_post_meta($post_id, 'goods', $goods) ){
+                add_post_meta($post_id, 'goods', $goods);
+            }
         }
 
-        if( !update_post_meta($post_id, 'goods', $goods) ){
-            add_post_meta($post_id, 'goods', $goods);
-        }
-
-        if( !update_post_meta($post_id, 'duration', $duration) ){
-            add_post_meta($post_id, 'duration', $duration);
+        // Save Duration
+        if( array_key_exists('duration', $_POST) ){
+            $duration = $_POST['duration'];
+            if( !update_post_meta($post_id, 'duration', $duration) ){
+                add_post_meta($post_id, 'duration', $duration);
+            }
         }
     }
 
