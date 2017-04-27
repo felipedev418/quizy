@@ -1,0 +1,17 @@
+a#qzy_add_new_answer{
+	text-decoration: none;
+    width: 35px;
+    height: 35px;
+    display: block;
+}
+
+a#qzy_add_new_answer .dashicons {
+    font-size: 35px;
+    color: #85c685;
+    transition: color 0.5s ease;
+}
+
+a#qzy_add_new_answer .dashicons:hover {
+    color: green;
+    transition: color 0.25s ease;
+}

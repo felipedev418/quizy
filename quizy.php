@@ -82,6 +82,7 @@ class Quizy {
 
         if( 'qzy_question' == $current_screen->id){
             wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') ); 
+            wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' ); 
         }
     }
 
