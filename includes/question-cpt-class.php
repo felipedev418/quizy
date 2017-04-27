@@ -33,10 +33,15 @@ class Qzy_Question_CPT {
 
     function register_meta_boxes(){
         // Question answers
-        add_meta_box( 'qzy_answers', 'Answers', array($this, 'add_answers_metabox'), 'qzy_question' );
+        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), 'qzy_question' );
     }
 
-    function add_answers_metabox( $post ){
+    function add_settings_metabox( $post ){
+        $this->admin_display_answers( $post );
+        $this->admin_display_duration( $post );
+    }
+
+    function admin_display_answers( $post ){
         $question_answers = get_post_meta($post->ID,'answers');
         $question_goods = get_post_meta($post->ID,'goods');
 
@@ -45,6 +50,7 @@ class Qzy_Question_CPT {
 
         $current_answer_num = 1;
         ?>
+        <h3>Answers</h3>
         <ul id="qzy_answers_list">
         <?php if($question_answers): ?>
             <?php foreach ($question_answers as $key => $answer) : if($answer == '') continue; ?>
@@ -71,10 +77,24 @@ class Qzy_Question_CPT {
         </a>
         <?php
     }
+
+    function admin_display_duration( $post ){
+        $question_duration = get_post_meta($post->ID,'duration', true);
+
+        $duration_value = "";
+        if( $question_duration ){
+            $duration_value = intval($question_duration);
+        }
+        ?>
+        <h3>Duration</h3>
+        <label for="">Duration in seconds : <input type="number" name="duration" min="1" value="<?php echo $duration_value; ?>"></label>
+        <?php
+    }
      
     function save_meta_boxs( $post_id ){
         $answers = $_POST['answers'];
         $goods = $_POST['goods'];
+        $duration = $_POST['duration'];
 
         // Remove empty answers
         foreach ($answers as $key => $answer) {
@@ -89,6 +109,10 @@ class Qzy_Question_CPT {
 
         if( !update_post_meta($post_id, 'goods', $goods) ){
             add_post_meta($post_id, 'goods', $goods);
+        }
+
+        if( !update_post_meta($post_id, 'duration', $duration) ){
+            add_post_meta($post_id, 'duration', $duration);
         }
     }
 
