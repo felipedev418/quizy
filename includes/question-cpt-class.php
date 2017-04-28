@@ -29,6 +29,10 @@ class Qzy_Question_CPT {
         add_action( 'add_meta_boxes', array($this, 'register_meta_boxes'));
 
         add_action( 'save_post', array($this, 'save_meta_boxs'));
+
+        // add duration in admin column
+        add_filter('manage_qzy_question_posts_columns', array($this, 'duration_columns_head') );
+        add_action('manage_qzy_question_posts_custom_column', array($this, 'duration_columns_content'), 10, 2);
     }
 
     function register_meta_boxes(){
@@ -146,5 +150,21 @@ class Qzy_Question_CPT {
         );
 
         register_taxonomy( 'question_cat', 'qzy_question', $args );
+    }
+
+    function duration_columns_head($column_names) {
+        $column_names['question_duration'] = 'Duration';
+        return $column_names;
+    }
+     
+    function duration_columns_content($column_name, $post_id) {
+        if ($column_name == 'question_duration') {
+            $question_duration = get_post_meta($post_id, 'duration', true);
+            if ($question_duration) {
+                echo $question_duration." s";
+            }else{
+                echo "<i>Default</i>";
+            }
+        }
     }
 }
