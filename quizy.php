@@ -84,7 +84,7 @@ class Quizy {
     function admin_scripts(){
         global $current_screen;
 
-        if( $this->question_object->get_post_type_name() == $current_screen->id){
+        if( $this->question_object->get_post_type_name() == $current_screen->post_type){
             wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') ); 
             wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' ); 
         }
