@@ -22,6 +22,9 @@ if (!defined('ABSPATH')) exit;
  */
 class Quizy {
 
+    private $quiz_object;
+    private $question_object;
+
     /**
      * Quizy constructor.
      */
@@ -29,6 +32,9 @@ class Quizy {
 
         $this->define_constants();
         $this->requirements();
+
+        $this->quiz_object = new Qzy_quiz_cpt();
+        $this->question_object = new Qzy_Question_cpt();
 
         $this->qz_start();
     }
@@ -66,11 +72,9 @@ class Quizy {
     function qz_start()
     {
         // main function
-        
+
         $this->enqueue_assets();
 
-    	$quiz_object = new Qzy_quiz_cpt();
-    	$question_object = new Qzy_Question_cpt();
     }
 
     function enqueue_assets(){
@@ -80,7 +84,7 @@ class Quizy {
     function admin_scripts(){
         global $current_screen;
 
-        if( 'qzy_question' == $current_screen->id){
+        if( $this->question_object->get_post_type_name() == $current_screen->id){
             wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') ); 
             wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' ); 
         }

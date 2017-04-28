@@ -13,6 +13,8 @@ if (!defined('ABSPATH')) exit;
  */
 class Qzy_Question_CPT {
 
+    private $post_type_name = "qzy_question";
+
     /**
      * Qzy_Question_CPT constructor.
      */
@@ -31,13 +33,13 @@ class Qzy_Question_CPT {
         add_action( 'save_post', array($this, 'save_meta_boxs'));
 
         // add duration in admin column
-        add_filter('manage_qzy_question_posts_columns', array($this, 'duration_columns_head') );
-        add_action('manage_qzy_question_posts_custom_column', array($this, 'duration_columns_content'), 10, 2);
+        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'duration_columns_head') );
+        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_columns_content'), 10, 2);
     }
 
     function register_meta_boxes(){
         // Question answers
-        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), 'qzy_question' );
+        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), $this->post_type_name );
     }
 
     function add_settings_metabox( $post ){
@@ -137,7 +139,7 @@ class Qzy_Question_CPT {
           'taxonomies' => array('question_cat'),
           'supports' => array('editor','author','thumbnail')
 	    );
-	    register_post_type( 'qzy_question', $args );
+	    register_post_type( $this->post_type_name, $args );
     }
 
     function register_taxonomies(){
@@ -149,7 +151,7 @@ class Qzy_Question_CPT {
             'show_in_quick_edit'    => true
         );
 
-        register_taxonomy( 'question_cat', 'qzy_question', $args );
+        register_taxonomy( 'question_cat', $this->post_type_name, $args );
     }
 
     function duration_columns_head($column_names) {
@@ -166,5 +168,9 @@ class Qzy_Question_CPT {
                 echo "<i>Default</i>";
             }
         }
+    }
+
+    function get_post_type_name(){
+        return $this->post_type_name;
     }
 }

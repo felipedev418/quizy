@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) exit;
  */
 class Qzy_Quiz_CPT {
 
+    private $post_type_name = "qzy_quiz";
+
     /**
      * Qzy_Quiz_CPT constructor.
      */
@@ -32,6 +34,10 @@ class Qzy_Quiz_CPT {
 	      'public' => true,
 	      'label'  => 'Quizzes'
 	    );
-	    register_post_type( 'qzy_quiz', $args );
+	    register_post_type( $this->post_type_name, $args );
+    }
+    
+    function get_post_type_name(){
+        return $this->post_type_name;
     }
 }
