@@ -140,7 +140,9 @@ class Qzy_Question_CPT {
         $args = array(
             'hierarchical'          => true,
             'label'                => 'Category',
-            'show_ui'               => true
+            'show_ui'               => true,
+            'show_admin_column'     => true,
+            'show_in_quick_edit'    => true
         );
 
         register_taxonomy( 'question_cat', 'qzy_question', $args );
