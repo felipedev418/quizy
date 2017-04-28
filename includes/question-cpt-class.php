@@ -35,6 +35,10 @@ class Qzy_Question_CPT {
         // add duration in admin column
         add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'duration_columns_head') );
         add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_columns_content'), 10, 2);
+
+        add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
+
+        add_action( 'save_post', array($this, 'quick_save_duration') );
     }
 
     function register_meta_boxes(){
@@ -172,5 +176,56 @@ class Qzy_Question_CPT {
 
     function get_post_type_name(){
         return $this->post_type_name;
+    }
+
+    function display_quickedit_settings( $column_name, $post_type ) {
+        static $printNonce = TRUE;
+        if ( $printNonce ) {
+            $printNonce = FALSE;
+            wp_nonce_field( plugin_basename( __FILE__ ), $this->post_type_name.'_edit_nonce' );
+        }
+
+        ?>
+        <fieldset class="inline-edit-col-right inline-edit-duration">
+          <div class="inline-edit-col column-<?php echo $column_name; ?>">
+            <label class="inline-edit-group">
+            <?php 
+             switch ( $column_name ) {
+             case 'question_duration':
+                 ?>
+                    <span class="title">Duration</span>
+                    <input type="number" min="1" name="duration_quick_edit" value="" placeholder="in seconds" />
+                 <?php
+                 break;
+             default:
+                 break;
+             }
+            ?>
+            </label>
+          </div>
+        </fieldset>
+        <?php
+    }
+
+    // Save duration on quick edit
+    function quick_save_duration( $post_id ) {
+
+        $slug = $this->post_type_name;
+        if ( $slug !== $_POST['post_type'] ) {
+            return;
+        }
+        if ( !current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        $_POST += array("{$slug}_edit_nonce" => '');
+        if ( !wp_verify_nonce( $_POST["{$slug}_edit_nonce"], plugin_basename( __FILE__ ) ) )
+        {
+            return;
+        }
+
+        if ( isset( $_REQUEST['duration_quick_edit'] ) ) {
+            update_post_meta( $post_id, 'duration', $_REQUEST['duration_quick_edit'] );
+        }
     }
 }
