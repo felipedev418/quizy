@@ -171,6 +171,9 @@ class Qzy_Question_CPT {
         // Duration 3rd
         $new_column_names['question_duration'] = 'Duration';
 
+        // Duration 4th
+        $new_column_names['question_answers'] = 'Answers';
+
         foreach ($old_column_names as $column_key => $column_name) {
             $new_column_names[$column_key] = $column_name;
         }
@@ -183,6 +186,8 @@ class Qzy_Question_CPT {
 
         $question_description = get_the_content($post_id);
         $question_edit_link = get_edit_post_link($post_id);
+
+        $answers = get_post_meta($post_id, 'answers', true);
 
         switch ($column_name) {
             case 'question_duration':
@@ -199,6 +204,9 @@ class Qzy_Question_CPT {
                 }else{
                     echo "<strong>No question yet!</strong>";
                 }
+                break;
+            case 'question_answers':
+                echo( count($answers) );
                 break;
             
             default:
