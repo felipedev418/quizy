@@ -66,7 +66,7 @@ class Qzy_Question_CPT {
             <?php foreach ($question_answers as $key => $answer) : if($answer == '') continue; ?>
                 <li>
                     <label>
-                        Answer <?php echo $current_answer_num; ?> <input type="text" name="answers[<?php echo $current_answer_num-1;?>]" data-num="<?php echo $current_answer_num;?>" value="<?php echo $answer; ?>" placeholder="Add your answer here ..." class="regular-text">
+                        Answer <?php echo $current_answer_num; ?> <input type="text" name="answers[<?php echo $current_answer_num-1;?>]" data-num="<?php echo $current_answer_num;?>" value="<?php echo esc_html($answer); ?>" placeholder="Add your answer here ..." class="regular-text">
                     </label>
                     <?php $cheched_or_not = ( is_array($question_goods) && array_key_exists($key, $question_goods) && $question_goods[$key] == 'on') ? 'checked="checked"' : '' ?>
                     <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $current_answer_num-1;?>]" <?php echo $cheched_or_not; ?>></label>
