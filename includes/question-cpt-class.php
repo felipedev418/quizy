@@ -60,7 +60,12 @@ class Qzy_Question_CPT {
 
         $current_answer_num = 1;
         ?>
-        <h3>Answers</h3>
+        <h3>
+            <span>Answers</span>
+            <a id="qzy_add_new_answer" href="#" title="Add new answer">
+                <span class="dashicons dashicons-plus-alt"></span>
+            </a>
+        </h3>
         <ul id="qzy_answers_list">
         <?php if($question_answers): ?>
             <?php foreach ($question_answers as $key => $answer) : if($answer == '') continue; ?>
@@ -82,9 +87,6 @@ class Qzy_Question_CPT {
                 <label>is this a good answer ? <input type="checkbox" name="goods[<?php echo $current_answer_num-1;?>]" ></label>
             </li>
         </ul>
-        <a id="qzy_add_new_answer" href="#" title="Add new answer">
-            <span class="dashicons dashicons-plus-alt"></span>
-        </a>
         <?php
     }
 

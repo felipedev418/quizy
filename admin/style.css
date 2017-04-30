@@ -1,12 +1,12 @@
 a#qzy_add_new_answer{
 	text-decoration: none;
-    width: 35px;
-    height: 35px;
-    display: block;
+    width: 26px;
+    height: 26px;
+    display: inline-block;
 }
 
 a#qzy_add_new_answer .dashicons {
-    font-size: 35px;
+    font-size: 26px;
     color: #85c685;
     transition: color 0.5s ease;
 }
