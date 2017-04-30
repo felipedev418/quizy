@@ -36,6 +36,10 @@ class Qzy_Question_CPT {
         add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'duration_columns_head') );
         add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_column_content'), 10, 2);
 
+        // Add question description column
+        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'description_column_head') );
+        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'title_column_content'), 10, 2);
+
         add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
 
         add_action( 'save_post', array($this, 'quick_save_duration') );
@@ -162,7 +166,25 @@ class Qzy_Question_CPT {
         $column_names['question_duration'] = 'Duration';
         return $column_names;
     }
-     
+
+    function description_column_head($old_column_names){
+
+        // Remove the title column
+        unset($old_column_names['title']);
+
+        // Checkbox column 1st
+        $new_column_names['cb'] = $old_column_names['cb'];
+
+        // Question 2nd
+        $new_column_names['question_desc'] = 'Question';
+
+        foreach ($old_column_names as $column_key => $column_name) {
+            $new_column_names[$column_key] = $column_name;
+        }
+
+        return $new_column_names;
+    }
+
     function duration_column_content($column_name, $post_id) {
         if ($column_name == 'question_duration') {
             $question_duration = get_post_meta($post_id, 'duration', true);
@@ -170,6 +192,18 @@ class Qzy_Question_CPT {
                 echo $question_duration." s";
             }else{
                 echo "<i>Default</i>";
+            }
+        }
+    }
+
+    function title_column_content($column_name, $post_id){
+        if ($column_name == 'question_desc') {
+            $question_description = get_the_content($post_id);
+            $question_edit_link = get_edit_post_link($post_id);
+            if ($question_description) {
+                echo '<a href="'.$question_edit_link.'">'.$question_description.'</a>';
+            }else{
+                echo "<strong>No question yet!</strong>";
             }
         }
     }
