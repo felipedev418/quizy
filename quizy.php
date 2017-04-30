@@ -84,9 +84,15 @@ class Quizy {
     function admin_scripts(){
         global $current_screen;
 
-        if( $this->question_object->get_post_type_name() == $current_screen->post_type){
-            wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') ); 
-            wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' ); 
+        $question_post_type_name = $this->question_object->get_post_type_name();
+        
+        if( 'edit-'.$question_post_type_name == $current_screen->id ){
+            // When in list questions
+            wp_enqueue_script( 'qzy_quickedit_admin_script', QUIZY_PLUGIN_URL . 'admin/list-questions.js', array('jquery') );
+        }else if( $question_post_type_name == $current_screen->id ){
+            // When in single question edit page
+            wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') );
+            wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' );
         }
     }
 

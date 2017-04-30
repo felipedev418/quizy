@@ -211,7 +211,7 @@ class Qzy_Question_CPT {
     function quick_save_duration( $post_id ) {
 
         $slug = $this->post_type_name;
-        if ( $slug !== $_POST['post_type'] ) {
+        if ( !array_key_exists('post_type', $_POST) || $slug !== $_POST['post_type'] ) {
             return;
         }
         if ( !current_user_can( 'edit_post', $post_id ) ) {
