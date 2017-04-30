@@ -32,13 +32,9 @@ class Qzy_Question_CPT {
 
         add_action( 'save_post', array($this, 'save_meta_boxs'));
 
-        // add duration in admin column
-        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'duration_columns_head') );
-        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_column_content'), 10, 2);
-
-        // Add question description column
-        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'description_column_head') );
-        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'title_column_content'), 10, 2);
+        // Alter columns
+        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
+        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'custom_columns_content'), 10, 2);
 
         add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
 
@@ -162,13 +158,7 @@ class Qzy_Question_CPT {
         register_taxonomy( 'question_cat', $this->post_type_name, $args );
     }
 
-    function duration_columns_head($column_names) {
-        $column_names['question_duration'] = 'Duration';
-        return $column_names;
-    }
-
-    function description_column_head($old_column_names){
-
+    function custom_columns_head($old_column_names) {
         // Remove the title column
         unset($old_column_names['title']);
 
@@ -178,6 +168,9 @@ class Qzy_Question_CPT {
         // Question 2nd
         $new_column_names['question_desc'] = 'Question';
 
+        // Duration 3rd
+        $new_column_names['question_duration'] = 'Duration';
+
         foreach ($old_column_names as $column_key => $column_name) {
             $new_column_names[$column_key] = $column_name;
         }
@@ -185,26 +178,32 @@ class Qzy_Question_CPT {
         return $new_column_names;
     }
 
-    function duration_column_content($column_name, $post_id) {
-        if ($column_name == 'question_duration') {
-            $question_duration = get_post_meta($post_id, 'duration', true);
-            if ($question_duration) {
-                echo $question_duration." s";
-            }else{
-                echo "<i>Default</i>";
-            }
-        }
-    }
+    function custom_columns_content($column_name, $post_id) {
+        $question_duration = get_post_meta($post_id, 'duration', true);
 
-    function title_column_content($column_name, $post_id){
-        if ($column_name == 'question_desc') {
-            $question_description = get_the_content($post_id);
-            $question_edit_link = get_edit_post_link($post_id);
-            if ($question_description) {
-                echo '<a href="'.$question_edit_link.'">'.$question_description.'</a>';
-            }else{
-                echo "<strong>No question yet!</strong>";
-            }
+        $question_description = get_the_content($post_id);
+        $question_edit_link = get_edit_post_link($post_id);
+
+        switch ($column_name) {
+            case 'question_duration':
+                if ($question_duration) {
+                    echo $question_duration." s";
+                }else{
+                    echo "<i>Default</i>";
+                }
+                break;
+
+            case 'question_desc':
+                if ($question_description) {
+                    echo '<a href="'.$question_edit_link.'">'.$question_description.'</a>';
+                }else{
+                    echo "<strong>No question yet!</strong>";
+                }
+                break;
+            
+            default:
+                # code...
+                break;
         }
     }
 
