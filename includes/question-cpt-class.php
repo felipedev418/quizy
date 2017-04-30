@@ -34,7 +34,7 @@ class Qzy_Question_CPT {
 
         // add duration in admin column
         add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'duration_columns_head') );
-        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_columns_content'), 10, 2);
+        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'duration_column_content'), 10, 2);
 
         add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
 
@@ -163,7 +163,7 @@ class Qzy_Question_CPT {
         return $column_names;
     }
      
-    function duration_columns_content($column_name, $post_id) {
+    function duration_column_content($column_name, $post_id) {
         if ($column_name == 'question_duration') {
             $question_duration = get_post_meta($post_id, 'duration', true);
             if ($question_duration) {
