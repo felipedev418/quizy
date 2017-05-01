@@ -53,10 +53,8 @@ class Qzy_Question_CPT {
 
     function admin_display_answers( $post ){
         $question_answers = get_post_meta($post->ID,'answers');
-        $question_goods = get_post_meta($post->ID,'goods');
-
+        $question_goods = get_post_meta($post->ID,'goods', true);
         $question_answers   = is_array( $question_answers ) && count( $question_answers ) > 0 ? $question_answers[0] : false;
-        $question_goods     = is_array( $question_goods ) && count( $question_goods ) > 0 ? $question_goods[0] : false; 
 
         $current_answer_num = 1;
         ?>
@@ -120,13 +118,31 @@ class Qzy_Question_CPT {
             if( !update_post_meta($post_id, 'answers', $answers) ){
                 add_post_meta($post_id, 'answers', $answers);
             }
+        }else{            
+            if( !update_post_meta($post_id, 'answers', array()) ){
+                add_post_meta($post_id, 'answers', array());
+            }
         }
 
         // Save Good Answers
         if( array_key_exists('goods', $_POST) ){
             $goods = $_POST['goods'];
+
+            // remove good answers with no answers
+            if(is_array($goods)){
+                foreach ($goods as $good_key => $good) {
+                    if( !array_key_exists($good_key, $answers) ){
+                        unset($goods[$good_key]);
+                    }
+                }
+            }
+
             if( !update_post_meta($post_id, 'goods', $goods) ){
                 add_post_meta($post_id, 'goods', $goods);
+            }
+        }else{            
+            if( !update_post_meta($post_id, 'goods', array()) ){
+                add_post_meta($post_id, 'goods', array());
             }
         }
 
@@ -140,6 +156,10 @@ class Qzy_Question_CPT {
             
             if( !update_post_meta($post_id, 'duration', $duration) ){
                 add_post_meta($post_id, 'duration', $duration);
+            }
+        }else{            
+            if( !update_post_meta($post_id, 'duration', "") ){
+                add_post_meta($post_id, 'duration', "");
             }
         }
     }
