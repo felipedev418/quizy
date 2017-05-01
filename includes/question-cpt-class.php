@@ -30,7 +30,7 @@ class Qzy_Question_CPT {
 
         add_action( 'add_meta_boxes', array($this, 'register_meta_boxes'));
 
-        add_action( 'save_post', array($this, 'save_meta_boxs'));
+        add_action( 'save_post', array($this, 'save_question'));
 
         // Alter columns
         add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
@@ -103,15 +103,16 @@ class Qzy_Question_CPT {
         <?php
     }
      
-    function save_meta_boxs( $post_id ){
+    function save_question( $post_id ){
 
         // Save Answers
         if( array_key_exists('answers', $_POST) ){
             $answers = $_POST['answers'];
 
-            // Remove empty answers
+            // Remove empty answers and sanitize
             foreach ($answers as $key => $answer) {
-                if( "" == trim($answer) ){
+                $answers[$key] = sanitize_text_field($answer);
+                if( "" == $answers[$key] ){
                     unset( $answers[$key] );
                 }
             }
