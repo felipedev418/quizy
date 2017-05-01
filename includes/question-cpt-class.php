@@ -104,6 +104,23 @@ class Qzy_Question_CPT {
     }
      
     function save_question( $post_id ){
+        $the_post = get_post($post_id);
+
+        // return if not question post type
+        if($the_post->post_type != $this->post_type_name){
+            return;
+        }
+
+        $report = array();
+
+        if(trim($the_post->post_content) == ""){
+            array_push($report,'description');
+        }
+        $cats = get_the_terms($the_post, 'question_cat');
+
+        if( $cats == false || count($cats) == 0 ){
+            array_push($report,'categories');
+        }
 
         // Save Answers
         if( array_key_exists('answers', $_POST) ){
@@ -116,18 +133,19 @@ class Qzy_Question_CPT {
                 }
             }
 
+            if( count($answers) < 2 ){
+                array_push($report,'answers');
+            }
+
             if( !update_post_meta($post_id, 'answers', $answers) ){
                 add_post_meta($post_id, 'answers', $answers);
             }
-        }else{            
-            if( !update_post_meta($post_id, 'answers', array()) ){
-                add_post_meta($post_id, 'answers', array());
-            }
-        }
 
-        // Save Good Answers
-        if( array_key_exists('goods', $_POST) ){
-            $goods = $_POST['goods'];
+            // Save Good Answers
+            $goods = array();
+            if(array_key_exists('goods', $_POST)){
+                $goods = $_POST['goods'];
+            }
 
             // remove good answers with no answers
             if(is_array($goods)){
@@ -138,14 +156,15 @@ class Qzy_Question_CPT {
                 }
             }
 
+            if( count($goods) == 0 ){
+                array_push($report,'goods');
+            }
+
             if( !update_post_meta($post_id, 'goods', $goods) ){
                 add_post_meta($post_id, 'goods', $goods);
             }
-        }else{            
-            if( !update_post_meta($post_id, 'goods', array()) ){
-                add_post_meta($post_id, 'goods', array());
-            }
         }
+
 
         // Save Duration
         if( array_key_exists('duration', $_POST) ){
@@ -163,6 +182,12 @@ class Qzy_Question_CPT {
                 add_post_meta($post_id, 'duration', "");
             }
         }
+
+        // save report
+        if( !update_post_meta($post_id, 'report', $report) ){
+            add_post_meta($post_id, 'report', $report);
+        }        
+
     }
 
     function register_post_type(){
@@ -313,29 +338,10 @@ class Qzy_Question_CPT {
         }
 
         $post_meta = get_post_meta($post->ID);
-        $terms = get_the_terms( $post, 'question_cat' );
 
         $report = array();
-
-
-        // Question text
-        if( "" == trim($post->post_content) ){
-            array_push($report, "Add question");
-        }
-
-        // if no categories choosen
-        if( !$terms ){            
-            array_push($report, "No category picked");
-        }
-
-        // Answers number
-        if( array_key_exists('answers', $post_meta) && count(unserialize($post_meta['answers'][0])) < 2 ){            
-            array_push($report, "Answers should be more than 1");
-        }
-
-        // Good answers
-        if( array_key_exists('goods', $post_meta) && count(unserialize($post_meta['goods'][0])) == 0 ){            
-            array_push($report, "No good answer checked");
+        if(array_key_exists('report', $post_meta)){
+            $report = unserialize($post_meta['report'][0]);
         }
 
         // Show report if any missings
@@ -345,10 +351,33 @@ class Qzy_Question_CPT {
             <h2>Question report</h2>
             <ul>
             <?php
-                foreach ($report as $message) {
-                    ?>
-                    <li><?php echo $message; ?></li>
-                    <?php
+                foreach ($report as $report_key) {
+                    switch ($report_key) {
+                        case 'description': 
+                            ?>
+                            <li>No question description</li>
+                            <?php
+                            break;
+                        case 'answers': 
+                            ?>
+                            <li>Answers should be more than 1</li>
+                            <?php
+                            break;
+                        case 'goods':
+                            ?>
+                            <li>No good answer checked</li>
+                            <?php                            
+                            break;
+                        case 'categories':
+                            ?>
+                            <li>No category picked</li>
+                            <?php                            
+                            break;
+                        
+                        default:
+                            # code...
+                            break;
+                    }
                 }
             ?>
             </ul>
