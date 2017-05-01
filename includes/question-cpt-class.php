@@ -111,7 +111,6 @@ class Qzy_Question_CPT {
 
             // Remove empty answers and sanitize
             foreach ($answers as $key => $answer) {
-                $answers[$key] = sanitize_text_field($answer);
                 if( "" == $answers[$key] ){
                     unset( $answers[$key] );
                 }
@@ -321,12 +320,12 @@ class Qzy_Question_CPT {
 
         // Question text
         if( "" == trim($post->post_content) ){
-            array_push($report, "No question yet!");
+            array_push($report, "Add question");
         }
 
         // if no categories choosen
         if( !$terms ){            
-            array_push($report, "Choose ONE category at least");
+            array_push($report, "No category picked");
         }
 
         // Answers number
@@ -336,20 +335,23 @@ class Qzy_Question_CPT {
 
         // Good answers
         if( array_key_exists('goods', $post_meta) && count(unserialize($post_meta['goods'][0])) == 0 ){            
-            array_push($report, "Choose ONE good answer at least");
+            array_push($report, "No good answer checked");
         }
 
         // Show report if any missings
         if(count($report)){
         ?>
         <div class="notice notice-error is-dismissible">
+            <h2>Question report</h2>
+            <ul>
             <?php
                 foreach ($report as $message) {
                     ?>
-                    <p><strong><?php echo $message; ?></strong></p>
+                    <li><?php echo $message; ?></li>
                     <?php
                 }
             ?>
+            </ul>
         </div>
         <?php
         } 
