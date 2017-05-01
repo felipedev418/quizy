@@ -304,8 +304,12 @@ class Qzy_Question_CPT {
         global $post;
 
         $current_screen = get_current_screen();
-        
+
         if( $current_screen->id != $this->post_type_name ){
+            return;
+        }
+
+        if( $post->post_status == 'auto-draft' ){
             return;
         }
 
@@ -326,12 +330,12 @@ class Qzy_Question_CPT {
         }
 
         // Answers number
-        if( count(unserialize($post_meta['answers'][0])) < 2 ){            
+        if( array_key_exists('answers', $post_meta) && count(unserialize($post_meta['answers'][0])) < 2 ){            
             array_push($report, "Answers should be more than 1");
         }
 
         // Good answers
-        if( count(unserialize($post_meta['goods'][0])) == 0 ){            
+        if( array_key_exists('goods', $post_meta) && count(unserialize($post_meta['goods'][0])) == 0 ){            
             array_push($report, "Choose ONE good answer at least");
         }
 
