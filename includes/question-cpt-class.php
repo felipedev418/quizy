@@ -132,7 +132,12 @@ class Qzy_Question_CPT {
 
         // Save Duration
         if( array_key_exists('duration', $_POST) ){
-            $duration = $_POST['duration'];
+            $duration = intval($_POST['duration']);
+
+            if($duration < 1){
+                $duration = "";
+            }
+            
             if( !update_post_meta($post_id, 'duration', $duration) ){
                 add_post_meta($post_id, 'duration', $duration);
             }
