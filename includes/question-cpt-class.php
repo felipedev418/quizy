@@ -192,7 +192,7 @@ class Qzy_Question_CPT {
     function custom_columns_content($column_name, $post_id) {
         $question_duration = get_post_meta($post_id, 'duration', true);
 
-        $question_description = get_the_content($post_id);
+        $question_description = esc_html(get_the_content($post_id));
         $question_edit_link = get_edit_post_link($post_id);
 
         $answers = get_post_meta($post_id, 'answers', true);
