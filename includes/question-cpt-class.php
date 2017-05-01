@@ -302,17 +302,19 @@ class Qzy_Question_CPT {
 
     function report_admin_notice() {
         global $post;
-        $post_meta = get_post_meta($post->ID);
 
         $current_screen = get_current_screen();
+        
+        if( $current_screen->id != $this->post_type_name ){
+            return;
+        }
+
+        $post_meta = get_post_meta($post->ID);
         $terms = get_the_terms( $post, 'question_cat' );
 
         $report = array();
 
 
-        if( $current_screen->id != $this->post_type_name ){
-            return;
-        }
         // Question text
         if( "" == trim($post->post_content) ){
             array_push($report, "No question yet!");
