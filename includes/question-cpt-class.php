@@ -39,6 +39,8 @@ class Qzy_Question_CPT {
         add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
 
         add_action( 'save_post', array($this, 'quick_save_duration') );
+
+        add_action( 'admin_notices', array($this, 'report_admin_notice') );
     }
 
     function register_meta_boxes(){
@@ -296,5 +298,54 @@ class Qzy_Question_CPT {
         if ( isset( $_REQUEST['duration_quick_edit'] ) ) {
             update_post_meta( $post_id, 'duration', $_REQUEST['duration_quick_edit'] );
         }
+    }
+
+    function report_admin_notice() {
+        global $post;
+        $post_meta = get_post_meta($post->ID);
+
+        $current_screen = get_current_screen();
+        $terms = get_the_terms( $post, 'question_cat' );
+
+        $report = array();
+
+
+        if( $current_screen->id != $this->post_type_name ){
+            return;
+        }
+        // Question text
+        if( "" == trim($post->post_content) ){
+            array_push($report, "No question yet!");
+        }
+
+        // if no categories choosen
+        if( !$terms ){            
+            array_push($report, "Choose ONE category at least");
+        }
+
+        // Answers number
+        if( count(unserialize($post_meta['answers'][0])) < 2 ){            
+            array_push($report, "Answers should be more than 1");
+        }
+
+        // Good answers
+        if( count(unserialize($post_meta['goods'][0])) == 0 ){            
+            array_push($report, "Choose ONE good answer at least");
+        }
+
+        // Show report if any missings
+        if(count($report)){
+        ?>
+        <div class="notice notice-error is-dismissible">
+            <?php
+                foreach ($report as $message) {
+                    ?>
+                    <p><strong><?php echo $message; ?></strong></p>
+                    <?php
+                }
+            ?>
+        </div>
+        <?php
+        } 
     }
 }
