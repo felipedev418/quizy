@@ -228,6 +228,9 @@ class Qzy_Question_CPT {
         // Duration 4th
         $new_column_names['question_answers'] = 'Answers';
 
+        // Duration 5th
+        $new_column_names['question_report'] = 'Missing';
+
         foreach ($old_column_names as $column_key => $column_name) {
             $new_column_names[$column_key] = $column_name;
         }
@@ -242,6 +245,7 @@ class Qzy_Question_CPT {
         $question_edit_link = get_edit_post_link($post_id);
 
         $answers = get_post_meta($post_id, 'answers', true);
+        $report = get_post_meta($post_id, 'report', true);
 
         switch ($column_name) {
             case 'question_duration':
@@ -259,8 +263,19 @@ class Qzy_Question_CPT {
                     echo "<strong>No question yet!</strong>";
                 }
                 break;
+
             case 'question_answers':
                 echo( count($answers) );
+                break;
+
+            case 'question_report':
+                if( is_array($report) && count($report) != 0 ){
+                    echo('<ul>');
+                    foreach ($report as $roport_key) {
+                        echo('<li style="color:red;">'.ucwords($roport_key).'</li>');
+                    }
+                    echo('</ul>');
+                }
                 break;
             
             default:
