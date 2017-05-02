@@ -49,8 +49,30 @@ class Qzy_Question_CPT {
     }
 
     function add_settings_metabox( $post ){
+        $this->admin_display_quizzes( $post );
         $this->admin_display_answers( $post );
         $this->admin_display_duration( $post );
+    }
+
+    function admin_display_quizzes( $post ){
+        $question_related_quiz = get_post_meta($post->ID,'quiz_related', true);
+
+        $args = array( "post_type" => Qzy_Quiz_CPT::get_post_type_name() );
+
+        $quizzes = get_posts( $args );
+        ?>
+        <h3>Quiz related</h3>
+        <label>
+            Quiz : 
+            <select name="quiz_related">
+                <option value="">-- Select one --</option>
+                <?php foreach ($quizzes as $key => $quiz) :?>
+                    <?php $selected = ($quiz->ID == $question_related_quiz ? 'selected' : ''); ?>
+                    <option value="<?php echo $quiz->ID; ?>" <?php echo $selected; ?>><?php echo $quiz->post_title; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+        <?php
     }
 
     function admin_display_answers( $post ){
@@ -186,7 +208,15 @@ class Qzy_Question_CPT {
         // save report
         if( !update_post_meta($post_id, 'report', $report) ){
             add_post_meta($post_id, 'report', $report);
-        }        
+        }
+
+        if( array_key_exists('quiz_related', $_POST) ){
+            $quiz_related = $_POST['quiz_related'];
+            // save quiz_related
+            if( !update_post_meta($post_id, 'quiz_related', $quiz_related) ){
+                add_post_meta($post_id, 'quiz_related', $quiz_related);
+            }            
+        }
 
     }
 
