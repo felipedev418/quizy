@@ -26,8 +26,6 @@ class Qzy_Question_CPT {
     function create_post_type(){
         add_action('init', array($this, 'register_post_type'));
 
-        add_action('init', array($this, 'register_taxonomies'));
-
         add_action( 'add_meta_boxes', array($this, 'register_meta_boxes'));
 
         add_action( 'save_post', array($this, 'save_question'));
@@ -138,11 +136,6 @@ class Qzy_Question_CPT {
         if(trim($the_post->post_content) == ""){
             array_push($report,'description');
         }
-        $cats = get_the_terms($the_post, 'question_cat');
-
-        if( $cats == false || count($cats) == 0 ){
-            array_push($report,'categories');
-        }
 
         // Save Answers
         if( array_key_exists('answers', $_POST) ){
@@ -241,22 +234,9 @@ class Qzy_Question_CPT {
 	    $args = array(
 	      'public' => true,
 	      'labels'  => $qst_labels,
-          'taxonomies' => array('question_cat'),
           'supports' => array('editor','author','thumbnail')
 	    );
 	    register_post_type( self::$post_type_name, $args );
-    }
-
-    function register_taxonomies(){
-        $args = array(
-            'hierarchical'          => true,
-            'label'                => 'Category',
-            'show_ui'               => true,
-            'show_admin_column'     => true,
-            'show_in_quick_edit'    => true
-        );
-
-        register_taxonomy( 'question_cat', self::$post_type_name, $args );
     }
 
     function custom_columns_head($old_column_names) {
@@ -429,13 +409,7 @@ class Qzy_Question_CPT {
                             ?>
                             <li>No good answer checked</li>
                             <?php                            
-                            break;
-                        case 'categories':
-                            ?>
-                            <li>No category picked</li>
-                            <?php                            
-                            break;
-                        
+                            break;                        
                         default:
                             # code...
                             break;
