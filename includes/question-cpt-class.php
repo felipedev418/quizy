@@ -198,17 +198,21 @@ class Qzy_Question_CPT {
             }
         }
 
-        // save report
-        if( !update_post_meta($post_id, 'report', $report) ){
-            add_post_meta($post_id, 'report', $report);
-        }
-
+        // save quiz_related
         if( array_key_exists('quiz_related', $_POST) ){
             $quiz_related = $_POST['quiz_related'];
-            // save quiz_related
+            
+            if( $quiz_related == "" ){
+                array_push($report,'quiz_related');
+            }
             if( !update_post_meta($post_id, 'quiz_related', $quiz_related) ){
                 add_post_meta($post_id, 'quiz_related', $quiz_related);
             }            
+        }
+
+        // save report
+        if( !update_post_meta($post_id, 'report', $report) ){
+            add_post_meta($post_id, 'report', $report);
         }
 
     }
@@ -409,7 +413,12 @@ class Qzy_Question_CPT {
                             ?>
                             <li>No good answer checked</li>
                             <?php                            
-                            break;                        
+                            break;
+                        case 'quiz_related':
+                            ?>
+                            <li>No QUIZ assigned</li>
+                            <?php                              
+                            break;
                         default:
                             # code...
                             break;
