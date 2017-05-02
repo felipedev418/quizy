@@ -30,9 +30,27 @@ class Qzy_Quiz_CPT {
 
     function register_post_type()
     {
+
+        $qz_labels = array(
+            'name'               => 'Quizzes',
+            'singular_name'      => 'Quiz',
+            'menu_name'          => 'Quizzes',
+            'name_admin_bar'     => 'Quiz',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Quiz',
+            'new_item'           => 'New Quiz',
+            'edit_item'          => 'Edit Quiz',
+            'view_item'          => 'View Quiz',
+            'all_items'          => 'All Quizzes',
+            'search_items'       => 'Search Quizzes',
+            'parent_item_colon'  => 'Parent Quizzes:',
+            'not_found'          => 'No Quizzes found.',
+            'not_found_in_trash' => 'No Quizzes found in Trash.'
+        );
+
 	    $args = array(
 	      'public' => true,
-	      'label'  => 'Quizzes'
+	      'labels'  => $qz_labels
 	    );
 	    register_post_type( $this->post_type_name, $args );
     }

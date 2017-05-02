@@ -191,9 +191,26 @@ class Qzy_Question_CPT {
     }
 
     function register_post_type(){
+        $qst_labels = array(
+            'name'               => 'Questions',
+            'singular_name'      => 'Question',
+            'menu_name'          => 'Questions',
+            'name_admin_bar'     => 'Question',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Question',
+            'new_item'           => 'New Question',
+            'edit_item'          => 'Edit Question',
+            'view_item'          => 'View Question',
+            'all_items'          => 'All Questions',
+            'search_items'       => 'Search Questions',
+            'parent_item_colon'  => 'Parent Questions:',
+            'not_found'          => 'No Questions found.',
+            'not_found_in_trash' => 'No Questions found in Trash.'
+        );
+
 	    $args = array(
 	      'public' => true,
-	      'label'  => 'Questions',
+	      'labels'  => $qst_labels,
           'taxonomies' => array('question_cat'),
           'supports' => array('editor','author','thumbnail')
 	    );
