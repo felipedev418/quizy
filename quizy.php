@@ -84,7 +84,7 @@ class Quizy {
     function admin_scripts(){
         global $current_screen;
 
-        $question_post_type_name = $this->question_object->get_post_type_name();
+        $question_post_type_name = Qzy_Question_CPT::get_post_type_name();
         
         if( 'edit-'.$question_post_type_name == $current_screen->id ){
             // When in list questions

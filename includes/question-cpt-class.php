@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) exit;
  */
 class Qzy_Question_CPT {
 
-    private $post_type_name = "qzy_question";
+    private static $post_type_name = "qzy_question";
 
     /**
      * Qzy_Question_CPT constructor.
@@ -33,8 +33,8 @@ class Qzy_Question_CPT {
         add_action( 'save_post', array($this, 'save_question'));
 
         // Alter columns
-        add_filter('manage_'.$this->post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
-        add_action('manage_'.$this->post_type_name.'_posts_custom_column', array($this, 'custom_columns_content'), 10, 2);
+        add_filter('manage_'.self::$post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
+        add_action('manage_'.self::$post_type_name.'_posts_custom_column', array($this, 'custom_columns_content'), 10, 2);
 
         add_action( 'quick_edit_custom_box', array($this, 'display_quickedit_settings'), 10, 2 );
 
@@ -45,7 +45,7 @@ class Qzy_Question_CPT {
 
     function register_meta_boxes(){
         // Question answers
-        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), $this->post_type_name );
+        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), self::$post_type_name );
     }
 
     function add_settings_metabox( $post ){
@@ -107,7 +107,7 @@ class Qzy_Question_CPT {
         $the_post = get_post($post_id);
 
         // return if not question post type
-        if($the_post->post_type != $this->post_type_name){
+        if($the_post->post_type != self::$post_type_name){
             return;
         }
 
@@ -214,7 +214,7 @@ class Qzy_Question_CPT {
           'taxonomies' => array('question_cat'),
           'supports' => array('editor','author','thumbnail')
 	    );
-	    register_post_type( $this->post_type_name, $args );
+	    register_post_type( self::$post_type_name, $args );
     }
 
     function register_taxonomies(){
@@ -226,7 +226,7 @@ class Qzy_Question_CPT {
             'show_in_quick_edit'    => true
         );
 
-        register_taxonomy( 'question_cat', $this->post_type_name, $args );
+        register_taxonomy( 'question_cat', self::$post_type_name, $args );
     }
 
     function custom_columns_head($old_column_names) {
@@ -301,15 +301,15 @@ class Qzy_Question_CPT {
         }
     }
 
-    function get_post_type_name(){
-        return $this->post_type_name;
+    public static function get_post_type_name(){
+        return self::$post_type_name;
     }
 
     function display_quickedit_settings( $column_name, $post_type ) {
         static $printNonce = TRUE;
         if ( $printNonce ) {
             $printNonce = FALSE;
-            wp_nonce_field( plugin_basename( __FILE__ ), $this->post_type_name.'_edit_nonce' );
+            wp_nonce_field( plugin_basename( __FILE__ ), self::$post_type_name.'_edit_nonce' );
         }
 
         ?>
@@ -337,7 +337,7 @@ class Qzy_Question_CPT {
     // Save duration on quick edit
     function quick_save_duration( $post_id ) {
 
-        $slug = $this->post_type_name;
+        $slug = self::$post_type_name;
         if ( !array_key_exists('post_type', $_POST) || $slug !== $_POST['post_type'] ) {
             return;
         }
@@ -361,7 +361,7 @@ class Qzy_Question_CPT {
 
         $current_screen = get_current_screen();
 
-        if( $current_screen->id != $this->post_type_name ){
+        if( $current_screen->id != self::$post_type_name ){
             return;
         }
 
