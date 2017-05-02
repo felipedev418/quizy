@@ -262,6 +262,9 @@ class Qzy_Question_CPT {
         // Duration 5th
         $new_column_names['question_report'] = 'Missing';
 
+        // Duration 6th
+        $new_column_names['question_quiz_related'] = 'Quiz';
+
         foreach ($old_column_names as $column_key => $column_name) {
             $new_column_names[$column_key] = $column_name;
         }
@@ -277,6 +280,7 @@ class Qzy_Question_CPT {
 
         $answers = get_post_meta($post_id, 'answers', true);
         $report = get_post_meta($post_id, 'report', true);
+        $quiz_id = get_post_meta($post_id, 'quiz_related', true);
 
         switch ($column_name) {
             case 'question_duration':
@@ -307,6 +311,17 @@ class Qzy_Question_CPT {
                     }
                     echo('</ul>');
                 }
+                break;
+
+            case 'question_quiz_related':
+                if( $quiz_id ){
+                    echo get_the_title( $quiz_id );
+                }else{
+                    ?>
+                    <span style="color:orange;"><i>None</i></span>
+                    <?php
+                }
+                
                 break;
             
             default:
