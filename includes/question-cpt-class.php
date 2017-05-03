@@ -43,7 +43,7 @@ class Qzy_Question_CPT {
 
     function register_meta_boxes(){
         // Question Settings metabox
-        add_meta_box( 'qzy_answers', 'Question settings', array($this, 'add_settings_metabox'), self::$post_type_name );
+        add_meta_box( 'qzy_question_meta', 'Question settings', array($this, 'add_settings_metabox'), self::$post_type_name );
     }
 
     function add_settings_metabox( $post ){
