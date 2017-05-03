@@ -26,6 +26,7 @@ class Qzy_Quiz_CPT {
     function create_post_type()
     {
     	add_action("init", array($this, "register_post_type"));
+        add_action('init', array($this, 'register_taxonomies'));
     }
 
     function register_post_type()
@@ -49,8 +50,9 @@ class Qzy_Quiz_CPT {
         );
 
 	    $args = array(
-	      'public' => true,
-	      'labels'  => $qz_labels
+            'public' => true,
+            'labels'  => $qz_labels,
+            'taxonomies' => array('quiz_cat'),
 	    );
 	    register_post_type( self::$post_type_name, $args );
     }
@@ -58,4 +60,22 @@ class Qzy_Quiz_CPT {
     public static function get_post_type_name(){
         return self::$post_type_name;
     }
+
+    function register_taxonomies(){
+        $labels = array(
+            'name'              => 'Quiz Categories',
+            'add_new_item'      => 'Add New Quiz Category',
+            'menu_name'         => 'Categories'
+        );
+        $args = array(
+            'hierarchical'          => true,
+            'labels'                => $labels,
+            'show_ui'               => true,
+            'show_admin_column'     => true,
+            'show_in_quick_edit'    => true
+        );
+
+        register_taxonomy( 'quiz_cat', self::$post_type_name, $args );
+    }
+
 }
