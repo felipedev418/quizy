@@ -143,7 +143,8 @@ class Quizy {
             array( $this, 'settings_section_cb'),
             'quizy_sections_group'
         );
-     
+        
+        // Default duration
         // register a new field in the "general_section" section, inside the "quizy_sections_group" quizy group page
         add_settings_field(
             'qzy_default_duration_field',
@@ -157,7 +158,20 @@ class Quizy {
         add_option( 'qzy_default_duration', '30' );
 
         // Add the duration option to the hidden settings group
-        register_setting('qzy_settings_group', 'qzy_default_duration');
+        register_setting('qzy_settings_group', 'qzy_default_duration'); 
+
+        // Default max questions by quiz
+        add_settings_field(
+            'qzy_default_max_questions_field',
+            'Default max questions per quiz',
+            array( $this, 'default_questions_field_cb'),
+            'quizy_sections_group',
+            'general_section'
+        );
+
+        add_option( 'qzy_default_questions', '10' );
+
+        register_setting('qzy_settings_group', 'qzy_default_questions');
     }
      
     // section content cb
@@ -173,6 +187,15 @@ class Quizy {
 
         ?>
         <input type="number" min="1" name="qzy_default_duration" value="<?php echo(isset($default_duration) ? esc_attr($default_duration) : ''); ?>">
+        <?php
+    }
+
+    function default_questions_field_cb()
+    {
+        $default_questions = get_option('qzy_default_questions');
+
+        ?>
+        <input type="number" min="1" name="qzy_default_questions" value="<?php echo(isset($default_questions) ? esc_attr($default_questions) : ''); ?>">
         <?php
     }
 }
