@@ -75,6 +75,29 @@ class Quizy {
 
         $this->enqueue_assets();
 
+        add_action( 'admin_menu', array($this, 'add_admin_menu') );
+
+    }
+
+    function add_admin_menu() {
+        add_options_page( 
+            'Quizy Options',
+            'Quizy',
+            'manage_options',
+            'quizy_settings',
+            array($this, 'settings_page')
+        );
+    }
+
+    function settings_page(){
+        ?>
+        <div class="wrap">
+            <h2 class="page-title">Quizy Settings</h2>
+            <div class="page-content">
+                Quizy settings here
+            </div>
+        </div>
+        <?php
     }
 
     function enqueue_assets(){
