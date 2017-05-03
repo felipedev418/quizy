@@ -77,6 +77,8 @@ class Quizy {
 
         add_action( 'admin_menu', array($this, 'add_admin_menu') );
 
+        add_action('admin_init', array($this, 'settings_init') );
+
     }
 
     function add_admin_menu() {
@@ -90,11 +92,24 @@ class Quizy {
     }
 
     function settings_page(){
+        // show error/update messages
+        settings_errors( 'wporg_messages' );
         ?>
         <div class="wrap">
-            <h2 class="page-title">Quizy Settings</h2>
+            <h2 class="page-title">Quizy</h2>
             <div class="page-content">
-                Quizy settings here
+                <form action="options.php" method="post">
+                    <?php
+                    // output setting sections and their fields
+                    do_settings_sections( 'quizy_sections_group' );
+
+                    // Output the HIDDEN fields, nonce, etc.
+                    settings_fields( 'qzy_settings_group' );
+
+                    // output save settings button
+                    submit_button( 'Save Settings' );
+                    ?>
+                </form>
             </div>
         </div>
         <?php
@@ -119,6 +134,47 @@ class Quizy {
         }
     }
 
+    function settings_init()
+    {
+        // register a new section "general_section" assigned to the "quizy_sections_group"
+        add_settings_section(
+            'general_section',
+            'General settings',
+            array( $this, 'settings_section_cb'),
+            'quizy_sections_group'
+        );
+     
+        // register a new field in the "general_section" section, inside the "quizy_sections_group" quizy group page
+        add_settings_field(
+            'qzy_default_duration_field',
+            'Default question duration (sec)',
+            array( $this, 'default_duration_field_cb'),
+            'quizy_sections_group',
+            'general_section'
+        );
+
+        // Create the duration option ( default 30sec )
+        add_option( 'qzy_default_duration', '30' );
+
+        // Add the duration option to the hidden settings group
+        register_setting('qzy_settings_group', 'qzy_default_duration');
+    }
+     
+    // section content cb
+    function settings_section_cb()
+    {
+        echo '<i>General settings goes here</i>';
+    }
+     
+    // field content cb
+    function default_duration_field_cb()
+    {
+        $default_duration = get_option('qzy_default_duration');
+
+        ?>
+        <input type="number" min="1" name="qzy_default_duration" value="<?php echo(isset($default_duration) ? esc_attr($default_duration) : ''); ?>">
+        <?php
+    }
 }
 
 // Starting the Quizy plugin
