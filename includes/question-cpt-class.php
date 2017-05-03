@@ -39,6 +39,8 @@ class Qzy_Question_CPT {
         add_action( 'save_post', array($this, 'quick_save_duration') );
 
         add_action( 'admin_notices', array($this, 'report_admin_notice') );
+
+        add_action( 'restrict_manage_posts', array($this, 'admin_quizzes_filter_restrict') );
     }
 
     function register_meta_boxes(){
@@ -444,5 +446,33 @@ class Qzy_Question_CPT {
         </div>
         <?php
         } 
+    }
+
+    function admin_quizzes_filter_restrict($post_type){
+        if( self::$post_type_name != $post_type )
+            return;
+
+        $args = array(
+            'post_type' => Qzy_Quiz_CPT::get_post_type_name()
+            );
+
+        $fields = get_posts( $args );
+        ?>
+        <select name="quiz_id">
+        <option value="">All Quizzes</option>
+        <?php
+            $current = isset($_GET['quiz_id'])? $_GET['quiz_id']:'';
+            foreach ($fields as $field) {
+                printf
+                    (
+                        '<option value="%s"%s>%s</option>',
+                        $field->ID,
+                        $field->ID == $current? ' selected="selected"':'',
+                        $field->post_title
+                    );
+            }
+        ?>
+        </select>
+        <?php
     }
 }

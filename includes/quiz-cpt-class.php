@@ -32,8 +32,6 @@ class Qzy_Quiz_CPT {
 
         add_action( 'save_post', array($this, 'save_quiz'));
 
-        add_action( 'restrict_manage_posts', array($this, 'admin_quizzes_filter_restrict') );
-
     }
 
     function register_post_type()
@@ -206,31 +204,4 @@ class Qzy_Quiz_CPT {
         }
     }
 
-    function admin_quizzes_filter_restrict($post_type){
-        if( Qzy_Question_CPT::get_post_type_name() != $post_type )
-            return;
-
-        $args = array(
-            'post_type' => self::$post_type_name
-            );
-
-        $fields = get_posts( $args );
-        ?>
-        <select name="quiz_id">
-        <option value="">All Quizzes</option>
-        <?php
-            $current = isset($_GET['quiz_id'])? $_GET['quiz_id']:'';
-            foreach ($fields as $field) {
-                printf
-                    (
-                        '<option value="%s"%s>%s</option>',
-                        $field->ID,
-                        $field->ID == $current? ' selected="selected"':'',
-                        $field->post_title
-                    );
-            }
-        ?>
-        </select>
-        <?php
-    }
 }
