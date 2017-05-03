@@ -206,7 +206,9 @@ class Qzy_Quiz_CPT {
         }
     }
 
-    function admin_quizzes_filter_restrict(){
+    function admin_quizzes_filter_restrict($post_type){
+        if( Qzy_Question_CPT::get_post_type_name() != $post_type )
+            return;
 
         $args = array(
             'post_type' => self::$post_type_name
