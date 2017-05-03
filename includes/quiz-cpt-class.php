@@ -90,10 +90,37 @@ class Qzy_Quiz_CPT {
 
     function add_settings_metabox($post){
         ?>
+        <h3>Quiz</h3>
+        <?php
+        $this->admin_display_quiz_type( $post );
+        ?>
+
         <h3>Questions</h3>
         <?php
         $this->admin_display_question_duration( $post );
         $this->admin_display_questions_per_quiz( $post );
+    }
+
+    function admin_display_quiz_type($post){
+        $quiz_type = get_post_meta($post->ID,'type', true);
+
+        $q_types = array(
+                array('slug'=>'mcq', 'name' => 'Multiple Choise Questions'),
+                array('slug'=>'ucq', 'name' =>'Unique Choise Questions'),
+            );
+        ?>
+        <p>
+            <label>Quiz type : 
+                <select name="quiz_type">
+                    <option value="">-- Select one --</option>
+                    <?php foreach ($q_types as $type) :?>
+                        <?php $selected = ($type['slug'] == $quiz_type ? 'selected' : ''); ?>
+                        <option value="<?php echo $type['slug']; ?>" <?php echo $selected; ?>><?php echo $type['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </p>
+        <?php
     }
 
     function admin_display_question_duration($post){
@@ -159,6 +186,19 @@ class Qzy_Quiz_CPT {
         }else{            
             if( !update_post_meta($post_id, 'questions_nbr', "") ){
                 add_post_meta($post_id, 'questions_nbr', "");
+            }
+        }
+
+        // Save Quiz type
+        if( array_key_exists('quiz_type', $_POST) ){
+            $quiz_type = $_POST['quiz_type'];
+
+            if( !update_post_meta($post_id, 'type', $quiz_type) ){
+                add_post_meta($post_id, 'type', $quiz_type);
+            }
+        }else{            
+            if( !update_post_meta($post_id, 'type', "") ){
+                add_post_meta($post_id, 'type', "");
             }
         }
     }
