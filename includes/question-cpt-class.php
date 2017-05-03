@@ -41,6 +41,9 @@ class Qzy_Question_CPT {
         add_action( 'admin_notices', array($this, 'report_admin_notice') );
 
         add_action( 'restrict_manage_posts', array($this, 'admin_quizzes_filter_restrict') );
+
+        add_filter( 'parse_query', array($this, 'admin_questions_filter') );
+
     }
 
     function register_meta_boxes(){
@@ -453,7 +456,9 @@ class Qzy_Question_CPT {
             return;
 
         $args = array(
-            'post_type' => Qzy_Quiz_CPT::get_post_type_name()
+            'post_type' => Qzy_Quiz_CPT::get_post_type_name(),
+            'posts_per_page' => -1,
+            'offset'=> 1
             );
 
         $fields = get_posts( $args );
@@ -474,5 +479,28 @@ class Qzy_Question_CPT {
         ?>
         </select>
         <?php
+    }
+
+    function admin_questions_filter($query){
+        global $pagenow;
+        $screen = get_current_screen();
+
+        if ( 
+            $screen &&
+            is_admin() &&
+            $screen->id == 'edit-'.self::$post_type_name &&
+            $query->query_vars['post_type'] == self::$post_type_name &&     // make sure the query we are altering is that for question post type
+            $pagenow =='edit.php' && isset($_GET['quiz_id']) &&
+            $_GET['quiz_id'] != ''
+        ) {
+            
+            $query->query_vars['meta_key']  = 'quiz_related';
+
+            $query->query_vars['meta_query'] = array(
+                'key' => 'quiz_related',
+                'value' => $_GET['quiz_id'],
+                'compare' => '='
+                );
+        }
     }
 }
