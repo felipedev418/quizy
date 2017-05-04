@@ -211,9 +211,6 @@ class Qzy_Quiz_CPT {
         if( $post->post_type != self::$post_type_name )
             return $actions;
 
-        // Remove view Quiz link
-        unset($actions['view']);
-
         $questions_filtered =add_query_arg(
                                     array('post_type' => Qzy_Question_CPT::get_post_type_name(), 'quiz_id' => $post->ID),
                                     admin_url().'edit.php'
