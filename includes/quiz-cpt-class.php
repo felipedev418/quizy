@@ -32,6 +32,9 @@ class Qzy_Quiz_CPT {
 
         add_action( 'save_post', array($this, 'save_quiz'));
 
+        // Edit Quiz actions
+        add_filter( 'post_row_actions', array($this, 'edit_question_actions'), 10, 2 );
+
     }
 
     function register_post_type()
@@ -204,4 +207,20 @@ class Qzy_Quiz_CPT {
         }
     }
 
+    function edit_question_actions($actions, $post){
+        if( $post->post_type != self::$post_type_name )
+            return $actions;
+
+        // Remove view Quiz link
+        unset($actions['view']);
+
+        $questions_filtered =add_query_arg(
+                                    array('post_type' => Qzy_Question_CPT::get_post_type_name(), 'quiz_id' => $post->ID),
+                                    admin_url().'edit.php'
+                                );
+        // Add a new link to see related questions
+        $actions['questions'] = '<a href="'.$questions_filtered.'" style="color:#FF9800;">View Questons</a>';
+
+        return $actions;
+    }
 }
