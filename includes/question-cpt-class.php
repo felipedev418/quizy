@@ -320,7 +320,11 @@ class Qzy_Question_CPT {
 
             case 'question_quiz_related':
                 if( $quiz_id ){
-                    echo get_the_title( $quiz_id );
+                    $questions_filtered =add_query_arg(
+                                    array('post_type' => self::$post_type_name, 'quiz_id' => $quiz_id),
+                                    admin_url().'edit.php'
+                                );
+                    echo '<a href="'.$questions_filtered.'">'.get_the_title( $quiz_id ).'</a>';
                 }else{
                     ?>
                     <span style="color:orange;"><i>None</i></span>
