@@ -14,9 +14,17 @@ $goods = get_post_meta($question->ID,'goods', true);
 <ul class="answers">
 	<?php foreach ($answers as $key => $answer) { ?>
 			<?php 
-				if( in_array($key, $qst_user_ansers) && array_key_exists($key, $goods) ){
+				if( 
+					( 
+					(is_array($qst_user_ansers) && in_array($key, $qst_user_ansers) ) || (!is_array($qst_user_ansers) && $key == $qst_user_ansers ) )
+					 && array_key_exists($key, $goods)
+					 ){
 					$choice_eval = '<span style="color:green;">Good choice</span>';
-				}else if( in_array($key, $qst_user_ansers) && !array_key_exists($key, $goods) ){
+				}else if( 
+					(
+						(is_array($qst_user_ansers) && in_array($key, $qst_user_ansers) ) || ( !is_array($qst_user_ansers) && $key ==$qst_user_ansers ) )
+					&& !array_key_exists($key, $goods) 
+					){
 					$choice_eval = '<span style="color:red;">Bad choice</span>';
 				}else{
 					$choice_eval = '';
@@ -24,7 +32,11 @@ $goods = get_post_meta($question->ID,'goods', true);
 			?>
 			<li>
 				<label><?php echo  $choice_eval; ?>
-					<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $key; ?>]" value="<?php echo $key; ?>">
+					<?php if( 'ucq' == $quiz_type ): ?>
+						<input type="radio" name="answer[<?php echo $question->ID; ?>]" value="<?php echo $key; ?>">
+					<?php else: ?>
+						<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $key; ?>]" value="<?php echo $key; ?>">
+				<?php endif; ?>
 					<span><?php echo esc_html($answer) ; ?></span>
 				</label>
 			</li>
