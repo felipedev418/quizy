@@ -1,21 +1,23 @@
 <?php get_header(); ?>
 <div>
-	<?php
-global $post;
+<?php
+
 
 $cats = get_the_terms(get_the_ID(),'quiz_cat');
 $cats_array = array();
 
-foreach ($cats as $key => $cat) {
-	array_push($cats_array, $cat->name);
+if($cats){
+	foreach ($cats as $key => $cat) {
+		array_push($cats_array, $cat->name);
+	}
 }
 
 $quiz_meta = get_post_meta( get_the_ID() );
 
-$quiz_type = $quiz_meta['type'][0];
-$quiz_duration_per_question = $quiz_meta['duration'][0];
-$quiz_questions = $quiz_meta['questions_nbr'][0];
-	?>
+$quiz_type = ($quiz_meta['type'][0] ? $quiz_meta['type'][0] : get_option('qzy_default_quiz_type'));
+$quiz_duration_per_question = ($quiz_meta['duration'][0] ? $quiz_meta['duration'][0] : get_option('qzy_default_duration'));
+$quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
+?>
 	<h1>Quiz information</h1>
 	<ul>
 		<li><strong>Title :</strong> <?php the_title(); ?></li>
@@ -40,11 +42,16 @@ $args = array(
 $questions = get_posts($args);
 
 ?>
-<h1>Questions :</h1>
-<ul class="questions">
-	<?php foreach ($questions as $key => $question):?>
-		<li><?php echo esc_html($question->post_content); ?></li>
-	<?php endforeach; ?>
-</ul>
+
+<div class="questions">
+	<form action="" method="post">
+		<?php foreach ($questions as $key => $question):?>
+			<div class="question">
+				<?php require QUIZY_TEMPLATES_DIR.'/question-content.php'; ?>
+			</div>
+		<?php endforeach; ?>
+		<input type="submit" value="Send">
+	</form>
+</div>
 
 <?php get_footer(); ?>

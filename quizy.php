@@ -57,6 +57,8 @@ class Quizy {
             define( 'QUIZY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         if ( ! defined( 'QUIZY_PLUGIN_DIR' ) )
             define( 'QUIZY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+        if ( ! defined( 'QUIZY_TEMPLATES_DIR' ) )
+            define( 'QUIZY_TEMPLATES_DIR', QUIZY_BASE_DIR.'/includes/templates' );
 
     }
 
@@ -174,6 +176,19 @@ class Quizy {
         add_option( 'qzy_default_questions', '10' );
 
         register_setting('qzy_settings_group', 'qzy_default_questions');
+
+        // Default Quiz Type
+        add_settings_field(
+            'qzy_default_quiz_type_field',
+            'Default quiz type',
+            array( $this, 'default_quiz_type_field_cb'),
+            'quizy_sections_group',
+            'general_section'
+        );
+
+        add_option( 'qzy_default_quiz_type', 'mcq' ); // Multiple choise question as default
+
+        register_setting('qzy_settings_group', 'qzy_default_quiz_type');
     }
      
     // section content cb
@@ -198,6 +213,26 @@ class Quizy {
 
         ?>
         <input type="number" min="1" name="qzy_default_questions" value="<?php echo(isset($default_questions) ? esc_attr($default_questions) : ''); ?>">
+        <?php
+    }
+    
+    function default_quiz_type_field_cb(){
+        $quiz_type = get_option('qzy_default_quiz_type');
+
+        $q_types = array(
+                array('slug'=>'mcq', 'name' => 'Multiple Choise Questions'),
+                array('slug'=>'ucq', 'name' =>'Unique Choise Questions'),
+            );
+        ?>
+        <p>
+            <select name="qzy_default_quiz_type">
+                <option value="">-- Select one --</option>
+                <?php foreach ($q_types as $type) :?>
+                    <?php $selected = ($type['slug'] == $quiz_type ? 'selected' : ''); ?>
+                    <option value="<?php echo $type['slug']; ?>" <?php echo $selected; ?>><?php echo $type['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
         <?php
     }
 
