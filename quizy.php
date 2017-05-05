@@ -186,7 +186,7 @@ class Quizy {
             'general_section'
         );
 
-        add_option( 'qzy_default_quiz_type', 'mcq' ); // Multiple choise question as default
+        add_option( 'qzy_default_quiz_type', 'mcq' ); // Multiple Choice question as default
 
         register_setting('qzy_settings_group', 'qzy_default_quiz_type');
     }
@@ -220,8 +220,8 @@ class Quizy {
         $quiz_type = get_option('qzy_default_quiz_type');
 
         $q_types = array(
-                array('slug'=>'mcq', 'name' => 'Multiple Choise Questions'),
-                array('slug'=>'ucq', 'name' =>'Unique Choise Questions'),
+                array('slug'=>'mcq', 'name' => 'Multiple Choice Questions'),
+                array('slug'=>'ucq', 'name' =>'Unique Choice Questions'),
             );
         ?>
         <p>

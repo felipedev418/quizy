@@ -109,8 +109,8 @@ class Qzy_Quiz_CPT {
         $quiz_type = get_post_meta($post->ID,'type', true);
 
         $q_types = array(
-                array('slug'=>'mcq', 'name' => 'Multiple Choise Questions'),
-                array('slug'=>'ucq', 'name' =>'Unique Choise Questions'),
+                array('slug'=>'mcq', 'name' => 'Multiple Choice Questions'),
+                array('slug'=>'ucq', 'name' =>'Unique Choice Questions'),
             );
         ?>
         <p>
