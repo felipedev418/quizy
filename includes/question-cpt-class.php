@@ -487,11 +487,15 @@ class Qzy_Question_CPT {
 
     function admin_questions_filter($query){
         global $pagenow;
+
+        if( !is_admin() ){
+            return;
+        }
+        
         $screen = get_current_screen();
 
         if ( 
             $screen &&
-            is_admin() &&
             $screen->id == 'edit-'.self::$post_type_name &&
             $query->query_vars['post_type'] == self::$post_type_name &&     // make sure the query we are altering is that for question post type
             $pagenow =='edit.php' && isset($_GET['quiz_id']) &&
