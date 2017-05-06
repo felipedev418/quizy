@@ -21,7 +21,7 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 	<h1>Quiz information</h1>
 	<ul>
 		<li><strong>Title :</strong> <?php the_title(); ?></li>
-		<li><strong>Description :</strong> <?php the_content(); ?></li>
+		<li><strong>Description :</strong> <?php echo $post->post_content; ?></li>
 		<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
 		<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
 		<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
