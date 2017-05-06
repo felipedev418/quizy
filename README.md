@@ -1,2 +1,2 @@
-# quizy
-Quizy a wordpress quiz plugin
+# Quizy
+Quizy is a Wordpress quizzes and tests plugin.
