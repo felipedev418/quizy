@@ -488,7 +488,7 @@ class Qzy_Question_CPT {
     function admin_questions_filter($query){
         global $pagenow;
 
-        if( !is_admin() ){
+        if( !is_admin() || !function_exists('get_current_screen')){
             return;
         }
         
