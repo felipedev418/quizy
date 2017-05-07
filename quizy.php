@@ -81,8 +81,6 @@ class Quizy {
 
         add_action('admin_init', array($this, 'settings_init') );
 
-        add_filter('single_template', array($this, 'single_templates') );
-
     }
 
     function add_admin_menu() {
@@ -236,18 +234,6 @@ class Quizy {
         <?php
     }
 
-    function single_templates($single) {
-        global $post;
-
-        // Quiz custom template page
-        if ( $post->post_type == Qzy_Quiz_CPT::get_post_type_name() ){
-            $tpl_path = QUIZY_BASE_DIR.'/includes/templates/single-quiz-tpl.php';
-            if(file_exists( $tpl_path ))
-                return $tpl_path;
-        }
-
-        return $single;
-    }
 }
 
 // Starting the Quizy plugin

@@ -35,6 +35,8 @@ class Qzy_Quiz_CPT {
         // Edit Quiz actions
         add_filter( 'post_row_actions', array($this, 'edit_question_actions'), 10, 2 );
 
+        // Shortcode
+        add_shortcode( 'quizy', array( $this, 'shortcode') );
     }
 
     function register_post_type()
@@ -219,5 +221,18 @@ class Qzy_Quiz_CPT {
         $actions['questions'] = '<a href="'.$questions_filtered.'" style="color:#FF9800;">View Questons</a>';
 
         return $actions;
+    }
+
+    function shortcode( $atts ) {
+        $atts = shortcode_atts( array(
+            'id' => ''
+        ), $atts, 'quizy' );
+
+        $quiz_id = $atts['id'];
+
+        ob_start();
+        require QUIZY_BASE_DIR.'/includes/templates/single-quiz-tpl.php';
+        
+        return ob_get_clean();  
     }
 }
