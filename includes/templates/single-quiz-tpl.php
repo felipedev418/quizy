@@ -1,5 +1,6 @@
 <?php
 // get $quiz_id from shortcode attribs
+$quiz_post = get_post($quiz_id);
 
 $cats = get_the_terms($quiz_id,'quiz_cat');
 $cats_array = array();
@@ -20,8 +21,8 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 	<div class="quiz_info">
 		<h2>Quiz information</h2>
 		<ul>
-			<li><strong>Title :</strong> <?php echo get_the_title($quiz_id); ?></li>
-			<li><strong>Description :</strong> <?php echo get_the_content($quiz_id); ?></li>
+			<li><strong>Title :</strong> <?php echo $quiz_post->post_title; ?></li>
+			<li><strong>Description :</strong> <?php echo $quiz_post->post_content; ?></li>
 			<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
 			<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
 			<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
