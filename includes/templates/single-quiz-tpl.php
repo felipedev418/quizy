@@ -2,6 +2,14 @@
 // get $quiz_id from shortcode attribs
 $quiz_post = get_post($quiz_id);
 
+// Quit if not a quiz
+if( !$quiz_post || $quiz_post->post_type != Qzy_Quiz_CPT::get_post_type_name() ){
+	?>
+	<p>No such Quiz! <?php echo $quiz_post->post_type; ?></p>
+	<?php
+	return;
+}
+
 $cats = get_the_terms($quiz_id,'quiz_cat');
 $cats_array = array();
 
