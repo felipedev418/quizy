@@ -17,15 +17,17 @@ $quiz_duration_per_question = ($quiz_meta['duration'][0] ? $quiz_meta['duration'
 $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
 ?>
 <div class="quiz_wrap">
-	<h2>Quiz information</h2>
-	<ul>
-		<li><strong>Title :</strong> <?php echo get_the_title($quiz_id); ?></li>
-		<li><strong>Description :</strong> <?php echo get_the_content($quiz_id); ?></li>
-		<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
-		<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
-		<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
-		<li><strong>Questions/Quiz :</strong> <?php echo $quiz_questions; ?></li>
-	</ul>
+	<div class="quiz_info">
+		<h2>Quiz information</h2>
+		<ul>
+			<li><strong>Title :</strong> <?php echo get_the_title($quiz_id); ?></li>
+			<li><strong>Description :</strong> <?php echo get_the_content($quiz_id); ?></li>
+			<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
+			<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
+			<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
+			<li><strong>Questions/Quiz :</strong> <?php echo $quiz_questions; ?></li>
+		</ul>
+	</div>
 	<?php
 	$args = array(
 			'post_type' => Qzy_Question_CPT::get_post_type_name(),
