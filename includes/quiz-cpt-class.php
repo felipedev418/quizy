@@ -37,6 +37,10 @@ class Qzy_Quiz_CPT {
 
         // Shortcode
         add_shortcode( 'quizy', array( $this, 'shortcode') );
+
+        // Alter columns
+        add_filter('manage_'.self::$post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
+        add_action('manage_'.self::$post_type_name.'_posts_custom_column', array($this, 'custom_columns_content'), 10, 2);
     }
 
     function register_post_type()
@@ -235,4 +239,37 @@ class Qzy_Quiz_CPT {
         
         return ob_get_clean();  
     }
+
+    function custom_columns_head($old_column_names) {
+
+        // Checkbox column 1st
+        $new_column_names['cb'] = $old_column_names['cb'];
+
+        // Title 2nd
+        $new_column_names['title'] = $old_column_names['title'];
+
+        // Shortcode 3rd
+        $new_column_names['quiz_shortcode'] = 'Shortcode';
+
+        foreach ($old_column_names as $column_key => $column_name) {
+            $new_column_names[$column_key] = $column_name;
+        }
+
+        return $new_column_names;
+    }
+
+    function custom_columns_content($column_name, $post_id) {
+        $quiz_shortcode = '[quizy id='.$post_id.']';
+
+        switch ($column_name) {
+            case 'quiz_shortcode':
+                echo $quiz_shortcode;
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
 }
