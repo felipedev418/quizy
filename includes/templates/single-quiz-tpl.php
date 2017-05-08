@@ -34,7 +34,7 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 			<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
 			<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
 			<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
-			<li><strong>Questions/Quiz :</strong> <?php echo $quiz_questions; ?></li>
+			<li><strong>Max questions/Quiz :</strong> <?php echo $quiz_questions; ?></li>
 		</ul>
 	</div>
 	<?php
