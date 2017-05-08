@@ -41,6 +41,18 @@ class Qzy_Quiz_CPT {
         // Alter columns
         add_filter('manage_'.self::$post_type_name.'_posts_columns', array($this, 'custom_columns_head') );
         add_action('manage_'.self::$post_type_name.'_posts_custom_column', array($this, 'custom_columns_content'), 10, 2);
+
+        // Filter the quiz page to let the quiz show up
+        add_filter('the_content', array($this, 'quiz_page_filter') );
+    }
+
+    function quiz_page_filter($content){
+        global $post;
+
+        if( $post->post_type != Qzy_Quiz_CPT::get_post_type_name() )
+            return;
+
+        return '[quizy id='.$post->ID.']';
     }
 
     function register_post_type()
