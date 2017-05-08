@@ -514,4 +514,21 @@ class Qzy_Question_CPT {
                 );
         }
     }
+
+    public static function are_good_answers($qst_user_ansers, $goods){
+        $good_answers = true;
+
+        if( count($goods) == count($qst_user_ansers) ){
+            foreach ($goods as $good_key => $val) {
+                if( !in_array($good_key, $qst_user_ansers) ){
+                    $good_answers = false;                      
+                    break;
+                }
+            }
+        }else{
+            $good_answers = false;
+        }
+
+        return $good_answers;
+    }
 }

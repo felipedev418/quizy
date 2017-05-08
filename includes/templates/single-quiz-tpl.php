@@ -51,6 +51,11 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 		);
 	$questions = get_posts($args);
 
+	$quiz_evaluating = false;
+	
+	if( array_key_exists('questions', $_POST) && count($_POST['questions']) > 0 ){
+		$quiz_evaluating = true;
+	}
 	?>
 
 	<div class="questions">
