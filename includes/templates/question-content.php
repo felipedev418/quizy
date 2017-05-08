@@ -6,6 +6,12 @@ if( array_key_exists('answer', $_POST) &&  array_key_exists($question->ID, $_POS
 }
 
 $answers = get_post_meta($question->ID,'answers', true);
+foreach ($answers as $key => $answer) {
+	$answers[$key] = array(
+						'key' => $key,
+	 					'answer' => $answer
+	 				);
+}
 
 $goods = get_post_meta($question->ID,'goods', true);
 
@@ -20,14 +26,14 @@ if ( count($goods) > 0 ) {
 					<?php 
 						if( 
 							( 
-							(is_array($qst_user_ansers) && in_array($key, $qst_user_ansers) ) || (!is_array($qst_user_ansers) && $key == $qst_user_ansers ) )
-							 && array_key_exists($key, $goods)
+							(is_array($qst_user_ansers) && in_array($answer['key'], $qst_user_ansers) ) || (!is_array($qst_user_ansers) && $answer['key'] == $qst_user_ansers ) )
+							 && array_key_exists($answer['key'], $goods)
 							 ){
 							$choice_eval = '<span style="color:green;">Good choice</span>';
 						}else if( 
 							(
-								(is_array($qst_user_ansers) && in_array($key, $qst_user_ansers) ) || ( !is_array($qst_user_ansers) && $key ==$qst_user_ansers ) )
-							&& !array_key_exists($key, $goods) 
+								(is_array($qst_user_ansers) && in_array($answer['key'], $qst_user_ansers) ) || ( !is_array($qst_user_ansers) && $answer['key'] ==$qst_user_ansers ) )
+							&& !array_key_exists($answer['key'], $goods) 
 							){
 							$choice_eval = '<span style="color:red;">Bad choice</span>';
 						}else{
@@ -37,11 +43,11 @@ if ( count($goods) > 0 ) {
 					<li>
 						<label><?php echo  $choice_eval; ?>
 							<?php if( 'ucq' == $quiz_type ): ?>
-								<input type="radio" name="answer[<?php echo $question->ID; ?>]" value="<?php echo $key; ?>">
+								<input type="radio" name="answer[<?php echo $question->ID; ?>]" value="<?php echo $answer['key']; ?>">
 							<?php else: ?>
-								<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $key; ?>]" value="<?php echo $key; ?>">
+								<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $answer['key']; ?>]" value="<?php echo $answer['key']; ?>">
 						<?php endif; ?>
-							<span><?php echo esc_html($answer) ; ?></span>
+							<span><?php echo esc_html($answer['answer']) ; ?></span>
 						</label>
 					</li>
 			<?php } ?>
