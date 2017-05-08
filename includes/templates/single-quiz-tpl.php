@@ -42,6 +42,7 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 			'post_type' => Qzy_Question_CPT::get_post_type_name(),
 			'posts_per_page' => $quiz_questions,
 			'meta_key' => 'quiz_related',
+	 		'orderby' => 'rand',
 			'meta_query' => array(
 				'key' => 'quiz_related',
 				'value' => $quiz_id,
