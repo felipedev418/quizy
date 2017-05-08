@@ -13,6 +13,9 @@ foreach ($answers as $key => $answer) {
 	 				);
 }
 
+// Randomize answers elements
+shuffle($answers);
+
 $goods = get_post_meta($question->ID,'goods', true);
 
 // Show question only if there is one good answer at least
