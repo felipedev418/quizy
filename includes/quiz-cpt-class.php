@@ -50,7 +50,7 @@ class Qzy_Quiz_CPT {
         global $post;
 
         if( $post->post_type != Qzy_Quiz_CPT::get_post_type_name() )
-            return;
+            return $content;
 
         return '[quizy id='.$post->ID.']';
     }
