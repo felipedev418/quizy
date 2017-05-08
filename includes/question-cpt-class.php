@@ -60,7 +60,10 @@ class Qzy_Question_CPT {
     function admin_display_quizzes( $post ){
         $question_related_quiz = get_post_meta($post->ID,'quiz_related', true);
 
-        $args = array( "post_type" => Qzy_Quiz_CPT::get_post_type_name() );
+        $args = array( 
+            "post_type" => Qzy_Quiz_CPT::get_post_type_name(),
+            'posts_per_page' => -1
+            );
 
         $quizzes = get_posts( $args );
         ?>
