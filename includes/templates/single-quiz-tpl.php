@@ -58,16 +58,23 @@ $max_questions_per_quiz = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['question
 	}
 
 	$nbr_question = 0;
+
+	if( $quiz_evaluating ){
+		require QUIZY_TEMPLATES_DIR.'/quiz-evaluation.php';
+	}else{
+	?>
+		<div class="questions">
+			<form action="" method="post">
+				<?php foreach ($questions as $key => $question):?>
+					<div class="question">
+						<?php require QUIZY_TEMPLATES_DIR.'/question-content.php'; ?>
+					</div>
+				<?php endforeach; ?>
+				<input type="submit" value="Send">
+			</form>
+		</div>	
+	<?php
+	}
 	?>
 
-	<div class="questions">
-		<form action="" method="post">
-			<?php foreach ($questions as $key => $question):?>
-				<div class="question">
-					<?php require QUIZY_TEMPLATES_DIR.'/question-content.php'; ?>
-				</div>
-			<?php endforeach; ?>
-			<input type="submit" value="Send">
-		</form>
-	</div>
 </div>
