@@ -23,7 +23,7 @@ $quiz_meta = get_post_meta( $quiz_id );
 
 $quiz_type = ($quiz_meta['type'][0] ? $quiz_meta['type'][0] : get_option('qzy_default_quiz_type'));
 $quiz_duration_per_question = ($quiz_meta['duration'][0] ? $quiz_meta['duration'][0] : get_option('qzy_default_duration'));
-$quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
+$max_questions_per_quiz = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
 ?>
 <div class="quiz_wrap">
 	<div class="quiz_info">
@@ -34,13 +34,13 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 			<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
 			<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
 			<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
-			<li><strong>Max questions/Quiz :</strong> <?php echo $quiz_questions; ?></li>
+			<li><strong>Max questions/Quiz :</strong> <?php echo $max_questions_per_quiz; ?></li>
 		</ul>
 	</div>
 	<?php
 	$args = array(
 			'post_type' => Qzy_Question_CPT::get_post_type_name(),
-			'posts_per_page' => $quiz_questions,
+			'posts_per_page' => -1,
 			'meta_key' => 'quiz_related',
 	 		'orderby' => 'rand',
 			'meta_query' => array(
@@ -56,6 +56,8 @@ $quiz_questions = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][
 	if( array_key_exists('questions', $_POST) && count($_POST['questions']) > 0 ){
 		$quiz_evaluating = true;
 	}
+
+	$nbr_question = 0;
 	?>
 
 	<div class="questions">

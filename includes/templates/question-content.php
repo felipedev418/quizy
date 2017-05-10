@@ -28,7 +28,13 @@ $image_url = get_the_post_thumbnail_url( $question, 'post-thumbnail' );
 if ( count($goods) > 0 ) {
 	// show if Multiple Choice Question OR (Good answers is 1 AND Unique Choice Question)
 	if( ('mcq' == $quiz_type) || (count($goods) == 1 && 'ucq' == $quiz_type) ){
+		$nbr_question++;
+		// Questions limit
+		if( $nbr_question > $max_questions_per_quiz){
+			return;
+		}
 		?>
+
 		<h2><?php echo esc_html($question->post_content); ?></h2>
 		<?php if( $image_url ){ ?>
 			<div class="thumb">
