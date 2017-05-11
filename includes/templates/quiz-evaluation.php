@@ -21,7 +21,7 @@ $user_questions = get_posts( $q_args );
 
 foreach ($user_questions as $question) {
 	?>
-	<h3><?php echo $question->post_content; ?> :</h3>
+	<h3><?php echo esc_html($question->post_content); ?> :</h3>
 	<?php
 
 	$answers = get_post_meta($question->ID,'answers', true);
@@ -37,7 +37,7 @@ foreach ($user_questions as $question) {
 			}
 			foreach ($user_answers_keys[$question->ID] as $answer_key) {
 				?>
-				<li><?php echo $answers[$answer_key]; ?></li>
+				<li><?php echo esc_html($answers[$answer_key]); ?></li>
 				<?php
 			}
 		?>
