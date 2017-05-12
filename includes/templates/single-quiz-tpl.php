@@ -63,7 +63,7 @@ $max_questions_per_quiz = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['question
 		require QUIZY_TEMPLATES_DIR.'/quiz-evaluation.php';
 	}else{
 	?>
-		<div class="questions">
+		<div class="questions-wrap">
 			<form action="" method="post">
 				<?php foreach ($questions as $key => $question):?>
 					<div class="question">

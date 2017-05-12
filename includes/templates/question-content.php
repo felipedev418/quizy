@@ -45,7 +45,6 @@ if ( count($goods) > 0 ) {
 			<?php } ?>
 		</ul>
 		<input type="hidden" name="questions[]" value="<?php echo $question->ID; ?>">
-		<div class="question_eval">
 		<?php
 	}
 }
