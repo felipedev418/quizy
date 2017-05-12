@@ -2,6 +2,7 @@
 //evaluation template
 
 $user_questions_ids = $_POST['questions'];
+$user_good_answers = 0;
 
 if( array_key_exists('answer', $_POST) ){
 	$user_answers_keys = $_POST['answer'];
@@ -66,6 +67,7 @@ foreach ($user_questions as $question) {
 	// Evaluation
 	if( $are_good_answers ){
 		// Good answers
+		$user_good_answers++;
 		?>
 		<div class="good_answer">Good answer</div>
 		<?php
@@ -76,3 +78,12 @@ foreach ($user_questions as $question) {
 		<?php
 	}
 }
+
+// Good answers rate
+$user_good_rate = $user_good_answers/count($user_questions_ids);
+$score = $user_good_rate*100;
+$score = round( $score, 2 );
+
+?>
+<div class="result">Result : <?php echo $score; ?>%</div>
+<?php
