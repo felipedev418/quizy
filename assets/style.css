@@ -2,13 +2,13 @@
 
 
 /* Evaluation page */
-.question-eval {
+.question {
     border: 2px solid #FF9800;
     padding: 15px;
     margin: 10px;
 }
 
-.good_answer, .bad_answer, .question-eval, .result {
+.good_answer, .bad_answer, .question, .result {
     border-radius: 5px;
 }
 

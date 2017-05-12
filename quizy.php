@@ -139,6 +139,7 @@ class Quizy {
     }
 
     function frontend_scripts(){
+        // Front end style filter hook
         $frontend_style_file = apply_filters('qzy_stylesheet_url ', QUIZY_PLUGIN_URL . 'assets/style.css');
         wp_enqueue_style( 'qzy_style', $frontend_style_file );
     }

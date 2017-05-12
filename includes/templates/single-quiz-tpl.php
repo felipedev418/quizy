@@ -66,9 +66,7 @@ $max_questions_per_quiz = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['question
 		<div class="questions-wrap">
 			<form action="" method="post">
 				<?php foreach ($questions as $key => $question):?>
-					<div class="question">
-						<?php require QUIZY_TEMPLATES_DIR.'/question-content.php'; ?>
-					</div>
+					<?php require QUIZY_TEMPLATES_DIR.'/question-content.php'; ?>
 				<?php endforeach; ?>
 				<input type="submit" value="Send">
 			</form>

@@ -24,27 +24,30 @@ if ( count($goods) > 0 ) {
 			return;
 		}
 		?>
-		<h2><?php echo esc_html($question->post_content); ?></h2>
-		<?php if( $image_url ){ ?>
-			<div class="thumb">
-				<img src="<?php echo $image_url; ?>" alt="">
-			</div>
-		<?php } ?>
-		<ul class="answers">
-			<?php foreach ($answers as $key => $answer) { ?>
-					<li>
-						<label>
-							<?php if( 'ucq' == $quiz_type ): ?>
-								<input type="radio" name="answer[<?php echo $question->ID; ?>]" value="<?php echo $answer['key']; ?>">
-							<?php else: ?>
-								<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $answer['key']; ?>]" value="<?php echo $answer['key']; ?>">
-							<?php endif; ?>
-								<span><?php echo esc_html($answer['answer']) ; ?></span>
-						</label>
-					</li>
+
+		<div class="question">
+			<h2><?php echo esc_html($question->post_content); ?></h2>
+			<?php if( $image_url ){ ?>
+				<div class="thumb">
+					<img src="<?php echo $image_url; ?>" alt="">
+				</div>
 			<?php } ?>
-		</ul>
-		<input type="hidden" name="questions[]" value="<?php echo $question->ID; ?>">
+			<ul class="answers">
+				<?php foreach ($answers as $key => $answer) { ?>
+						<li>
+							<label>
+								<?php if( 'ucq' == $quiz_type ): ?>
+									<input type="radio" name="answer[<?php echo $question->ID; ?>]" value="<?php echo $answer['key']; ?>">
+								<?php else: ?>
+									<input type="checkbox" name="answer[<?php echo $question->ID; ?>][<?php echo $answer['key']; ?>]" value="<?php echo $answer['key']; ?>">
+								<?php endif; ?>
+									<span><?php echo esc_html($answer['answer']) ; ?></span>
+							</label>
+						</li>
+				<?php } ?>
+			</ul>
+			<input type="hidden" name="questions[]" value="<?php echo $question->ID; ?>">
+		</div>
 		<?php
 	}
 }

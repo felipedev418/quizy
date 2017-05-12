@@ -24,7 +24,7 @@ $user_questions = get_posts( $q_args );
 	<?php
 	foreach ($user_questions as $question) {
 		?>
-		<div class="question-eval">
+		<div class="question">
 			<h2><?php echo esc_html($question->post_content); ?> :</h2>
 			<?php
 
