@@ -119,6 +119,8 @@ class Quizy {
 
     function enqueue_assets(){
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
+        add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
     }
 
     function admin_scripts(){
@@ -134,6 +136,10 @@ class Quizy {
             wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') );
             wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' );
         }
+    }
+
+    function frontend_scripts(){
+        wp_enqueue_style( 'qzy_style', QUIZY_PLUGIN_URL . 'assets/style.css' );
     }
 
     function settings_init()

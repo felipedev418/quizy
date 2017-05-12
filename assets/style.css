@@ -1,0 +1,36 @@
+/* Questions front end style */
+
+
+/* Evaluation page */
+.question-eval {
+    border: 2px solid #FF9800;
+    padding: 15px;
+    margin: 10px;
+}
+
+.good_answer, .bad_answer, .question-eval, .result {
+    border-radius: 5px;
+}
+
+.good_answer, .bad_answer {
+    display: inline-block;
+    padding: 10px;
+    color: white;
+}
+
+.good_answer {
+    background-color: #4CAF50;
+    
+}
+
+.bad_answer { 
+    background-color: #F44336;
+}
+
+.result {
+	color: white;
+	background-color: #FF9800;
+	padding: 20px;
+	margin: 10px;
+	text-align: center; 
+}
