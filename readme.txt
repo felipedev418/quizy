@@ -11,7 +11,7 @@ Quizy enables you to create quizzes, tests with several common settings with eva
 
 == Description ==
 
-Quizy is in the 1st step of development, if you would like to contribute please refer to your Github repository [Quizy](https://github.com/lebleut/quizy/ "Contribute")
+Quizy is in the 1st step of development, if you would like to contribute please refer to our Github repository.
 
 *   Create Quizzes with (Quiz type, Duration (sec), max nbr questions) 
 *   Create questions and assign them to a picked Quiz (add answers, duration, image ...)
