@@ -94,4 +94,3 @@ $score = round( $score, 2 );
 
 ?>
 <div class="result">Result : <?php echo $score; ?>%</div>
-<?php

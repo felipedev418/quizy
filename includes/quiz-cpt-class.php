@@ -246,9 +246,10 @@ class Qzy_Quiz_CPT {
 
         $quiz_id = $atts['id'];
 
+        $quiz_tpl_file = apply_filters('qzy_quiz_template', QUIZY_BASE_DIR.'/includes/templates/single-quiz-tpl.php');
+
         ob_start();
-        require QUIZY_BASE_DIR.'/includes/templates/single-quiz-tpl.php';
-        
+        require $quiz_tpl_file;
         return ob_get_clean();  
     }
 
