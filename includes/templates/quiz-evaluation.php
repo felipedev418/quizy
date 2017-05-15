@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined( 'ABSPATH' ) ) exit;
 //evaluation template
 
 $user_questions_ids = $_POST['questions'];

@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined( 'ABSPATH' ) ) exit;
 // get $quiz_id from shortcode attribs
 $quiz_post = get_post($quiz_id);
 
