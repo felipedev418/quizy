@@ -285,4 +285,43 @@ class Qzy_Quiz_CPT {
         }
     }
 
+    public static function get_quiz_cats( $quiz_id ){
+
+        $cats = get_the_terms($quiz_id,'quiz_cat');
+        $cats_array = array();
+
+        if($cats){
+            foreach ($cats as $key => $cat) {
+                array_push($cats_array, $cat->name);
+            }
+        }
+
+        return $cats_array;
+
+    }
+
+    public static function get_quiz_information( $quiz_id, $information ){
+        
+        $quiz_meta = get_post_meta( $quiz_id );
+
+        switch ($information) {
+            case 'type':
+                return ($quiz_meta['type'][0] ? $quiz_meta['type'][0] : get_option('qzy_default_quiz_type'));
+                break;
+
+            case 'question_duration':
+                return ($quiz_meta['duration'][0] ? $quiz_meta['duration'][0] : get_option('qzy_default_duration'));
+                break;
+
+            case 'questions_number':
+                return ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
+                break;
+            
+            default:
+                return false;
+                break;
+        }
+        
+    }
+
 }
