@@ -58,7 +58,7 @@ class Quizy {
         if ( ! defined( 'QUIZY_PLUGIN_DIR' ) )
             define( 'QUIZY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
         if ( ! defined( 'QUIZY_TEMPLATES_DIR' ) )
-            define( 'QUIZY_TEMPLATES_DIR', QUIZY_BASE_DIR.'/includes/templates' );
+            define( 'QUIZY_TEMPLATES_DIR', QUIZY_BASE_DIR.'/templates' );
 
     }
 
