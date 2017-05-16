@@ -10,33 +10,18 @@ if( !$quiz_post || $quiz_post->post_type != Qzy_Quiz_CPT::get_post_type_name() )
 	return;
 }
 
-$cats = get_the_terms($quiz_id,'quiz_cat');
-$cats_array = array();
-
-if($cats){
-	foreach ($cats as $key => $cat) {
-		array_push($cats_array, $cat->name);
-	}
-}
-
-$quiz_meta = get_post_meta( $quiz_id );
-
-$quiz_type = ($quiz_meta['type'][0] ? $quiz_meta['type'][0] : get_option('qzy_default_quiz_type'));
-$quiz_duration_per_question = ($quiz_meta['duration'][0] ? $quiz_meta['duration'][0] : get_option('qzy_default_duration'));
-$max_questions_per_quiz = ($quiz_meta['questions_nbr'][0] ? $quiz_meta['questions_nbr'][0] : get_option('qzy_default_questions'));
 ?>
 <div class="quiz_wrap">
-	<div class="quiz_info">
-		<h2>Quiz information</h2>
-		<ul>
-			<li><strong>Title :</strong> <?php echo $quiz_post->post_title; ?></li>
-			<li><strong>Description :</strong> <?php echo $quiz_post->post_content; ?></li>
-			<li><strong>Categories :</strong> <?php echo implode(',', $cats_array); ?></li>
-			<li><strong>Type :</strong> <?php echo $quiz_type; ?></li>
-			<li><strong>Duration/Question :</strong> <?php echo $quiz_duration_per_question; ?></li>
-			<li><strong>Max questions/Quiz :</strong> <?php echo $max_questions_per_quiz; ?></li>
-		</ul>
-	</div>
+
+	<?php 
+	/*
+		@hooked : quizy_quiz_description_template, 10
+	*/
+
+	do_action('quizy_before_questions', $quiz_post);
+
+	?>
+
 	<?php
 	$args = array(
 			'post_type' => Qzy_Question_CPT::get_post_type_name(),

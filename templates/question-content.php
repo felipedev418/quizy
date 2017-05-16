@@ -18,6 +18,9 @@ $image_url = get_the_post_thumbnail_url( $question, 'post-thumbnail' );
 // Show question only if there is one good answer at least
 if ( count($goods) > 0 ) {
 	// show if Multiple Choice Question OR (Good answers is 1 AND Unique Choice Question)
+	$quiz_type = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'type' );
+	$max_questions_per_quiz = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'questions_number' );
+	
 	if( ('mcq' == $quiz_type) || (count($goods) == 1 && 'ucq' == $quiz_type) ){
 		$nbr_question++;
 		// Questions limit

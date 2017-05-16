@@ -81,6 +81,8 @@ class Quizy {
 
         add_action('admin_init', array($this, 'settings_init') );
 
+        $this->default_hooks();
+
     }
 
     function add_admin_menu() {
@@ -242,6 +244,9 @@ class Quizy {
         <?php
     }
 
+    function default_hooks(){
+        require_once QUIZY_BASE_DIR.'/includes/quizy-default-hooks.php';
+    }
 }
 
 // Starting the Quizy plugin
