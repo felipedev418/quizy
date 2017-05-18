@@ -22,14 +22,14 @@
 						/*
 						*	quizy_before_question hook
 						*/
-						do_action('quizy_before_question', $quiz_post);
+						do_action('quizy_before_question', $question);
 
 						require QUIZY_TEMPLATES_DIR.'/question-content.php';
 						
 						/*
 						*	quizy_after_question hook
 						*/
-						do_action('quizy_after_question', $quiz_post);
+						do_action('quizy_after_question', $question);
 
 					endforeach;
 
