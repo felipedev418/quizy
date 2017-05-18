@@ -246,6 +246,30 @@ class Qzy_Quiz_CPT {
 
         $quiz_id = $atts['id'];
 
+        $quiz_post = get_post($quiz_id);
+
+        // Quit if not a quiz
+        if( !$quiz_post || $quiz_post->post_type != Qzy_Quiz_CPT::get_post_type_name() ){
+            ?>
+            <p>No such Quiz! <?php echo $quiz_post->post_type; ?></p>
+            <?php
+            return;
+        }
+
+        $args = array(
+            'post_type' => Qzy_Question_CPT::get_post_type_name(),
+            'posts_per_page' => -1,
+            'meta_key' => 'quiz_related',
+            'orderby' => 'rand',
+            'meta_query' => array(
+                'key' => 'quiz_related',
+                'value' => $quiz_id,
+                'compare' => '='
+                )
+        );
+        
+        $questions = get_posts($args);
+
         $quiz_tpl_file = apply_filters('qzy_quiz_template', QUIZY_TEMPLATES_DIR.'/single-quiz-tpl.php');
 
         ob_start();

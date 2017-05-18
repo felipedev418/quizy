@@ -1,5 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
+if( !isset($nbr_question) ){
+	$nbr_question = 0;	
+}
+
 $answers = get_post_meta($question->ID,'answers', true);
 foreach ($answers as $key => $answer) {
 	$answers[$key] = array(
