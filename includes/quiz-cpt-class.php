@@ -267,8 +267,22 @@ class Qzy_Quiz_CPT {
                 'compare' => '='
                 )
         );
-        
+
         $questions = get_posts($args);
+
+        // Remove questions without good answers
+        //  if unique choise questions type and good answers are more then one 
+        //  or if over max questions
+        foreach ($questions as $key => $question) {
+            $goods = get_post_meta($question->ID,'goods', true);
+            $quiz_type = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'type' );
+            $max_questions_per_quiz = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'questions_number' );
+
+            if( count($goods) == 0 || ( count($goods) > 1 && 'ucq' == $quiz_type ) || $key+1 > $max_questions_per_quiz ){
+                unset( $questions[$key] );
+            }
+
+        }
 
         $quiz_tpl_file = apply_filters('qzy_quiz_template', QUIZY_TEMPLATES_DIR.'/single-quiz-tpl.php');
 
