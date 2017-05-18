@@ -36,10 +36,11 @@
 					/**
 					 *	quizy_after_questions hook
 					 *
+					 *	@hooked : quizy_show_questions_number - 9
 					 *	@hooked : quizy_quiz_submit_button_template - 10
 					 */
 
-					do_action('quizy_after_questions', $quiz_post);
+					do_action('quizy_after_questions', $quiz_post, $questions);
 
 					?>
 				</form>

@@ -22,3 +22,16 @@ if( !function_exists('quizy_quiz_submit_button_template') ){
 	}
 
 }
+
+add_action('quizy_after_questions','quizy_show_questions_number', 9, 2);
+
+if( !function_exists('quizy_show_questions_number') ){
+
+	function quizy_show_questions_number( $quiz_post, $questions ){
+		$nbr_questions = count($questions);
+		?>
+		<div>Number of questions : <strong><?php echo $nbr_questions; ?></strong></div>
+		<?php 
+	}
+	
+}
