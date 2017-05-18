@@ -12,3 +12,13 @@ if( !function_exists('quizy_quiz_description_template') ){
 	}
 
 }
+
+add_action('quizy_after_questions', 'quizy_quiz_submit_button_template', 10);
+
+if( !function_exists('quizy_quiz_submit_button_template') ){
+
+	function quizy_quiz_submit_button_template( $quiz_post ){
+		require QUIZY_TEMPLATES_DIR.'/elements/quiz-submit.php';
+	}
+
+}
