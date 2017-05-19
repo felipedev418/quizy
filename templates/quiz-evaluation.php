@@ -14,7 +14,8 @@ $q_args = array(
 	'post_type' => Qzy_Question_CPT::get_post_type_name(),
 	'posts_per_page' => -1,
 	'meta_key' => 'quiz_related',
-	'post__in' => $user_questions_ids
+	'post__in' => $user_questions_ids,
+	'orderby' => 'post__in'
 	);
 
 $user_questions = get_posts( $q_args );
