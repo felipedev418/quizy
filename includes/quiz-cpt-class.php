@@ -284,11 +284,13 @@ class Qzy_Quiz_CPT {
 
         }
 
-        $quiz_tpl_file = apply_filters('qzy_quiz_template', QUIZY_TEMPLATES_DIR.'/single-quiz-tpl.php');
+        $passing_args = array(
+            'quiz_post' => $quiz_post,
+            'questions' => $questions,
+            'quiz_type' => $quiz_type
+        );
 
-        ob_start();
-        require $quiz_tpl_file;
-        return ob_get_clean();  
+        quizy_get_template( 'single-quiz-tpl.php', $passing_args);
     }
 
     function custom_columns_head($old_column_names) {

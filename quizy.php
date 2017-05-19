@@ -64,7 +64,8 @@ class Quizy {
 
     function requirements(){
     	// Required files should be loaded here
-    	require_once QUIZY_BASE_DIR.'/includes/quiz-cpt-class.php';
+        require_once QUIZY_BASE_DIR.'/includes/quizy-core-functions.php';
+        require_once QUIZY_BASE_DIR.'/includes/quiz-cpt-class.php';
     	require_once QUIZY_BASE_DIR.'/includes/question-cpt-class.php';
     }
 

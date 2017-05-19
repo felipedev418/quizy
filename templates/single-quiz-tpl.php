@@ -3,7 +3,7 @@
 <div class="quiz_wrap quiz_<?php echo $quiz_post->ID; ?>">
 	<?php
 	if( array_key_exists('questions', $_POST) && count($_POST['questions']) > 0 ):
-		require QUIZY_TEMPLATES_DIR.'/quiz-evaluation.php';
+		quizy_get_template( 'quiz-evaluation.php');
 	else:
 		?>
 			<div class="questions-wrap">
@@ -24,7 +24,12 @@
 						 */
 						do_action('quizy_before_question', $question);
 
-						require QUIZY_TEMPLATES_DIR.'/question-content.php';
+						$passing_args = array(
+							'question' => $question,
+							'quiz_type' => $quiz_type
+						);
+
+						quizy_get_template( 'question-content.php', $passing_args);
 
 						/**
 						 *	quizy_after_question hook
