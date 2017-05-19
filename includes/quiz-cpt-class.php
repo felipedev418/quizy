@@ -270,6 +270,8 @@ class Qzy_Quiz_CPT {
 
         $questions = get_posts($args);
 
+        $nbr_questions = 1;
+
         // Remove questions without good answers
         //  if unique choise questions type and good answers are more then one 
         //  or if over max questions
@@ -277,9 +279,10 @@ class Qzy_Quiz_CPT {
             $goods = get_post_meta($question->ID,'goods', true);
             $quiz_type = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'type' );
             $max_questions_per_quiz = Qzy_Quiz_CPT::get_quiz_information( $quiz_post->ID, 'questions_number' );
-
-            if( count($goods) == 0 || ( count($goods) > 1 && 'ucq' == $quiz_type ) || $key+1 > $max_questions_per_quiz ){
+            if( count($goods) == 0 || ( count($goods) > 1 && 'ucq' == $quiz_type ) || $nbr_questions > $max_questions_per_quiz ){
                 unset( $questions[$key] );
+            }else{
+                $nbr_questions++;
             }
 
         }
