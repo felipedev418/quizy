@@ -16,7 +16,7 @@ $image_url = get_the_post_thumbnail_url( $question, 'post-thumbnail' );
 ?>
 
 <div class="question">
-	<h2><?php echo esc_html($question->post_content); ?></h2>
+	<h2><?php echo $question_num; ?>. <?php echo esc_html($question->post_content); ?></h2>
 	<?php if( $image_url ){ ?>
 		<div class="thumb">
 			<img src="<?php echo $image_url; ?>" alt="">

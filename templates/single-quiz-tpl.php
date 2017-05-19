@@ -16,8 +16,10 @@
 					 */
 
 					do_action('quizy_before_questions', $quiz_post);
-					
-					foreach ($questions as $key => $question):
+
+					$question_num = 1;
+
+					foreach ($questions as $question):
 
 						/**
 						 *	quizy_before_question hook
@@ -26,7 +28,8 @@
 
 						$passing_args = array(
 							'question' => $question,
-							'quiz_type' => $quiz_type
+							'quiz_type' => $quiz_type,
+							'question_num' => $question_num++
 						);
 
 						quizy_get_template( 'question-content.php', $passing_args);

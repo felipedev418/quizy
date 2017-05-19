@@ -23,10 +23,10 @@ $user_questions = get_posts( $q_args );
 ?>
 <div class="questions-eval-wrap">
 	<?php
-	foreach ($user_questions as $question) {
+	foreach ($user_questions as $question_key=>$question) {
 		?>
 		<div class="question">
-			<h2><?php echo esc_html($question->post_content); ?> :</h2>
+			<h2><?php echo $question_key+1; ?>. <?php echo esc_html($question->post_content); ?> :</h2>
 			<?php
 
 			$answers = get_post_meta($question->ID,'answers', true);
