@@ -31,15 +31,19 @@ if( !function_exists('quizy_quiz_submit_button_template') ){
 
 }
 
-add_action('quizy_after_questions','quizy_show_questions_number', 9, 2);
+add_action('quizy_after_questions','quizy_show_questions_number', 9, 3);
 
 if( !function_exists('quizy_show_questions_number') ){
 
-	function quizy_show_questions_number( $quiz_post, $questions ){
+	function quizy_show_questions_number( $quiz_post, $questions, $quiz_list_mode ){
 		$nbr_questions = count($questions);
-		?>
-		<div>Number of questions : <strong><?php echo $nbr_questions; ?></strong></div>
-		<?php 
+
+		if( $quiz_list_mode ){
+			?>
+			<div>Number of questions : <strong><?php echo $nbr_questions; ?></strong></div>
+			<?php 
+		}
+
 	}
 	
 }

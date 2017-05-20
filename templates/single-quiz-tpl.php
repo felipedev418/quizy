@@ -64,7 +64,7 @@
 					 *	@hooked : quizy_quiz_submit_button_template - 10
 					 */
 
-					do_action('quizy_after_questions', $quiz_post, $questions);
+					do_action('quizy_after_questions', $quiz_post, $questions, $quiz_list_mode);
 
 					?>
 				</form>
