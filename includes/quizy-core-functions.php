@@ -57,7 +57,7 @@ function quizy_add_hidden( $quiz_list_mode = false ){
 		$old_answers = json_encode( $old_answers );
 	}
 	?>
-		<input name="old_questions" type="text" value="<?php echo esc_attr($old_questions); ?>">
-		<input name="old_answers" type="text" value="<?php echo esc_attr($old_answers); ?>">
+		<input name="old_questions" type="hidden" value="<?php echo esc_attr($old_questions); ?>">
+		<input name="old_answers" type="hidden" value="<?php echo esc_attr($old_answers); ?>">
 	<?php
 }
