@@ -37,6 +37,14 @@
 							'question_num' => $question_num++
 						);
 
+						if( !$quiz_list_mode ){
+							if( array_key_exists('old_questions', $_POST) ){
+								$passing_args['question_num'] = 2 + count( json_decode( stripslashes($_POST['old_questions']), true) );
+							}else{
+								$passing_args['question_num'] = 1;
+							}
+						}
+
 						quizy_get_template( 'question-content.php', $passing_args);
 
 						/**
