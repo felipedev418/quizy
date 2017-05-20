@@ -241,10 +241,17 @@ class Qzy_Quiz_CPT {
 
     function shortcode( $atts ) {
         $atts = shortcode_atts( array(
-            'id' => ''
+            'id' => '',
+            'list' => 'no'
         ), $atts, 'quizy' );
 
         $quiz_id = $atts['id'];
+
+        $quiz_list_mode = false;
+
+        if( $atts['list'] == 'yes' ){
+            $quiz_list_mode = true;
+        }
 
         $quiz_post = get_post($quiz_id);
 
@@ -268,10 +275,22 @@ class Qzy_Quiz_CPT {
                 )
         );
 
+        if( !$quiz_list_mode && array_key_exists('old_questions', $_POST) ){
+            $args['post__not_in'] = json_decode( stripslashes($_POST['old_questions']), true);
+
+            if( !is_array($args['post__not_in']) ){
+                $args['post__not_in'] = array();
+            }
+
+            $args['post__not_in'] = array_merge ($args['post__not_in'], $_POST['questions']);
+        }
+
         $questions = get_posts($args);
 
         $nbr_questions = 1;
 
+        $quiz_type = '';
+        $max_questions_per_quiz = 1;
         // Remove questions without good answers
         //  if unique choise questions type and good answers are more then one 
         //  or if over max questions
@@ -287,10 +306,17 @@ class Qzy_Quiz_CPT {
 
         }
 
+        if( !$quiz_list_mode && count($questions) > 0 ){
+            reset($questions);
+            $questions = array( current($questions) );
+        }
+
         $passing_args = array(
             'quiz_post' => $quiz_post,
             'questions' => $questions,
-            'quiz_type' => $quiz_type
+            'quiz_type' => $quiz_type,
+            'max_questions_per_quiz' => $max_questions_per_quiz,
+            'quiz_list_mode' => $quiz_list_mode
         );
 
         quizy_get_template( 'single-quiz-tpl.php', $passing_args);

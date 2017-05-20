@@ -2,8 +2,13 @@
 
 <div class="quiz_wrap quiz_<?php echo $quiz_post->ID; ?>">
 	<?php
-	if( array_key_exists('questions', $_POST) && count($_POST['questions']) > 0 ):
-		quizy_get_template( 'quiz-evaluation.php');
+	if( 
+		!$quiz_list_mode && ( count($questions) == 0 || ( array_key_exists('old_questions', $_POST) && count(json_decode( stripslashes($_POST['old_questions']) ) )+1 >= intval($max_questions_per_quiz) ) )
+		||
+		$quiz_list_mode && array_key_exists('questions', $_POST) && count($_POST['questions']) > 0 ):
+
+		quizy_get_template( 'quiz-evaluation.php', array('quiz_list_mode' => $quiz_list_mode));
+
 	else:
 		?>
 			<div class="questions-wrap">
@@ -40,6 +45,9 @@
 						do_action('quizy_after_question', $question);
 
 					endforeach;
+
+					// Add hidden imputs in which we save data for previous questions
+					quizy_add_hidden( $quiz_list_mode );
 
 					/**
 					 *	quizy_after_questions hook

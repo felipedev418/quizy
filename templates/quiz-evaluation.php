@@ -1,14 +1,26 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 //evaluation template
 
-$user_questions_ids = $_POST['questions'];
-$user_good_answers = 0;
+if( !$quiz_list_mode ){
+	$user_questions_ids = json_decode( stripslashes($_POST['old_questions']), true);
+	$user_answers_keys = json_decode( stripslashes($_POST['old_answers']), true);
 
-if( array_key_exists('answer', $_POST) ){
-	$user_answers_keys = $_POST['answer'];
+	$user_questions_ids = array_merge( $user_questions_ids, $_POST['questions'] );
+
+	if( array_key_exists('answer', $_POST) ){
+		$user_answers_keys = $user_answers_keys + $_POST['answer'];
+	}
+
 }else{
-	$user_answers_keys = array();
+	$user_questions_ids = $_POST['questions'];
+
+	if( array_key_exists('answer', $_POST) ){
+		$user_answers_keys = $_POST['answer'];
+	}else{
+		$user_answers_keys = array();
+	}
 }
+$user_good_answers = 0;
 
 $q_args = array(
 	'post_type' => Qzy_Question_CPT::get_post_type_name(),
@@ -26,7 +38,7 @@ $user_questions = get_posts( $q_args );
 	foreach ($user_questions as $question_key=>$question) {
 		?>
 		<div class="question">
-			<h2><?php echo $question_key+1; ?>. <?php echo esc_html($question->post_content); ?> :</h2>
+			<h2><?php echo $question_key+1; ?>. <?php echo esc_html($question->post_content); ?></h2>
 			<?php
 
 			$answers = get_post_meta($question->ID,'answers', true);
