@@ -20,7 +20,7 @@
 					 *	@hooked : quizy_quiz_description_template - 10
 					 */
 
-					do_action('quizy_before_questions', $quiz_post);
+					do_action('quizy_before_questions', $quiz_post, $questions, $quiz_list_mode);
 
 					$question_num = 1;
 

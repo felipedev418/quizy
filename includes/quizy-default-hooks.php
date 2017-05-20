@@ -3,12 +3,15 @@
 	Quizy default hooks
 */
 
-add_action('quizy_before_questions', 'quizy_quiz_description_template', 10);
+add_action('quizy_before_questions', 'quizy_quiz_description_template', 10, 3);
 
 if( !function_exists('quizy_quiz_description_template') ){
 
-	function quizy_quiz_description_template( $quiz_post ){
+	function quizy_quiz_description_template( $quiz_post, $questions, $quiz_list_mode ){
 
+		if( !$quiz_list_mode )
+			return;
+		
         $passing_args = array(
             'quiz_post' => $quiz_post,
         );
