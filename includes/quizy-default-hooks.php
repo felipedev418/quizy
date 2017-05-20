@@ -19,13 +19,13 @@ if( !function_exists('quizy_quiz_description_template') ){
 
 }
 
-add_action('quizy_after_questions', 'quizy_quiz_submit_button_template', 10);
+add_action('quizy_after_questions', 'quizy_quiz_submit_button_template', 10, 3);
 
 if( !function_exists('quizy_quiz_submit_button_template') ){
 
-	function quizy_quiz_submit_button_template( $quiz_post ){
+	function quizy_quiz_submit_button_template( $quiz_post, $questions, $quiz_list_mode ){
 
-        quizy_get_template( 'elements/quiz-submit.php');
+        quizy_get_template( 'elements/quiz-submit.php', array('quiz_list_mode' => $quiz_list_mode) );
 
 	}
 
