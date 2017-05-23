@@ -34,3 +34,8 @@
 	margin: 10px;
 	text-align: center; 
 }
+
+/* disabled submit button style */
+.questions-wrap input[type="submit"]:disabled{
+    opacity: 0.25;
+}
