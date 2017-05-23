@@ -16,3 +16,4 @@ Add the `list=yes` if you need to list all the quiz questions in one single page
 ## Filter Hooks
  * apply_filters('`quizy_locate_template`', $template, $template_name, $template_path )
  * apply_filters('`quizy_stylesheet_url`', QUIZY_PLUGIN_URL . 'assets/style.css')
+ * apply_filters('`quizy_script_url`', QUIZY_PLUGIN_URL . 'assets/quizy.js');

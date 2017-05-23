@@ -133,11 +133,11 @@ class Quizy {
         
         if( 'edit-'.$question_post_type_name == $current_screen->id ){
             // When in list questions
-            wp_enqueue_script( 'qzy_quickedit_admin_script', QUIZY_PLUGIN_URL . 'admin/list-questions.js', array('jquery') );
+            wp_enqueue_script( 'qzy_quickedit_admin_script', QUIZY_PLUGIN_URL . 'admin/assets/list-questions.js', array('jquery') );
         }else if( $question_post_type_name == $current_screen->id ){
             // When in single question edit page
-            wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/admin.js', array('jquery') );
-            wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/style.css' );
+            wp_enqueue_script( 'qzy_admin_script', QUIZY_PLUGIN_URL . 'admin/assets/admin.js', array('jquery') );
+            wp_enqueue_style( 'qzy_admin_style', QUIZY_PLUGIN_URL . 'admin/assets/style.css' );
         }
     }
 

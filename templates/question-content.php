@@ -17,12 +17,7 @@ $image_url = get_the_post_thumbnail_url( $question, 'post-thumbnail' );
 
 <div class="question">
 	<h2><?php echo $question_num; ?>. <?php echo esc_html($question->post_content); ?></h2>
-	<?php if( $image_url ){ ?>
-		<div class="thumb">
-			<img src="<?php echo $image_url; ?>" alt="">
-		</div>
-	<?php } ?>
-	<ul class="answers">
+	<ol class="answers">
 		<?php foreach ($answers as $key => $answer) { ?>
 				<li>
 					<label>
@@ -35,6 +30,11 @@ $image_url = get_the_post_thumbnail_url( $question, 'post-thumbnail' );
 					</label>
 				</li>
 		<?php } ?>
-	</ul>
+	</ol>
+	<?php if( $image_url ){ ?>
+		<div class="thumb">
+			<img src="<?php echo $image_url; ?>" alt="">
+		</div>
+	<?php } ?>
 	<input type="hidden" name="questions[]" value="<?php echo $question->ID; ?>">
 </div>
