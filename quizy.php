@@ -3,7 +3,7 @@
 Plugin Name: Quizy
 Plugin URI: https://www.tooltipy.com
 Description: Quizy enable you to create awesome Quizzes and tests..
-Version: 1.0
+Version: 1.1
 Author: Jamel Zarga
 Author URI: https://github.com/lebleut/
 License: GPL
